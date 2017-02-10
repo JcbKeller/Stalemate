@@ -22,7 +22,7 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Mouse click at ("+ gridX.toString()+","+ gridY.toString()+")");
-				grid.tileClicked(Tile.this);
+				grid.tileClicked(Tile.this, gridX, gridY);
 				//repaint();
 			}
 
