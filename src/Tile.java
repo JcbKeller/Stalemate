@@ -6,11 +6,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Tile extends JComponent {
+public class Tile extends JComponent {//This Class handles individual tile responses
 
 	final Integer gridX, gridY;
-	GamePiece thePiece = null;
-	
+	GamePiece tilePiece = null;
+
 	public Tile(GridView grid, Integer gridX, Integer gridY){
 		this.gridY = gridY;
 		this.gridX = gridX;
@@ -29,28 +29,26 @@ public class Tile extends JComponent {
 		});
 
 	}
-	
-	public void setPiece(GamePiece thePiece) {
-		this.thePiece = thePiece;
+
+	public void displayPiece(GamePiece requestedPiece) {//
+		this.tilePiece = requestedPiece;
 		repaint();
 	}
-	
-	public void unsetPiece(){
-		this.thePiece = null;
+
+	public void erasePiece(){
+		this.tilePiece = null;
 		repaint();
 	}
 
 	public void paint(Graphics g){
-
-
 		g.setColor(Color.WHITE);
 		g.fillRect(2,2,100,100);
 		g.setColor(Color.BLACK);
 		g.drawRect(2,2,100,100);
 
-		if(thePiece!=null){
+		if(tilePiece!=null){
 			System.out.println("Painting piece at " + gridX + "," + gridY);
-			thePiece.paint(g);
+			tilePiece.paint(g);
 		}
 	}
 

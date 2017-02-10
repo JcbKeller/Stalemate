@@ -6,44 +6,32 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
-public class GridView extends JPanel {
-	
-	private List<Tile> myTiles = new ArrayList<>();
-	
-	public GridView(){
+public class GridView extends JPanel { //This Class handles the layout of tiles
+
+	private List<Tile> tileList = new ArrayList<>(); //List of all tiles drawn in grid
+
+	public GridView(){ //Constructor for grid
 		super(new GridBagLayout());
-		
-		System.out.println("New GridView");
-		
-		setBackground(Color.PINK);
+		final GridBagConstraints c = constraints(); //Constraints for grid
 		this.setMinimumSize(new Dimension(10,10));
 		this.setMaximumSize(new Dimension(10,10));
-		
-		final GridBagConstraints c = constraints();
-		for(int row = 0; row < 4; row++){
-			c.gridy = row;
-			for(int column = 0; column < 4; column++){
-				c.gridx = column;
-				Tile tile = new Tile(this,column,row);
-				this.add(tile,c);
-				myTiles.add(tile);
-			}
-		}
+		setBackground(Color.PINK);
+		drawTiles(c, 4, 4);
 		this.revalidate();
 	}
-	
-	public void tileClicked(Tile tile){
-		for(Tile next: myTiles){
-			if(next == tile){
-				next.setPiece(new GamePiece());
+
+	public void tileClicked(Tile clicked){ //How Grid Reacts when told a tile got clicked
+		for(Tile thisTile: tileList){
+			if(thisTile == clicked){
+				thisTile.displayPiece(new GamePiece(1));//Add a new piece at the clicked square
 			}else{
-				next.unsetPiece();
+				thisTile.erasePiece();
 			}
 		}
 		this.repaint();
 		this.revalidate();
 	}
-	
+
 	public GridBagConstraints constraints(){
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -55,5 +43,17 @@ public class GridView extends JPanel {
 		return c;
 	}
 	
-	
+	private void drawTiles(GridBagConstraints c, int tileRows, int tileColumns){
+		for(int row = 0; row < tileRows; row++){ //Iterate and create grid tiles
+			c.gridy = row;
+			for(int column = 0; column < tileColumns; column++){
+				c.gridx = column;
+				Tile newTile = new Tile(this,column,row); //Make tiles
+				this.add(newTile,c);//Add Tiles
+				tileList.add(newTile);//Update List of tiles
+			}
+		}
+	}
+
+
 }

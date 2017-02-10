@@ -15,17 +15,33 @@ import javax.swing.*;
 
 public class GamePiece extends JPanel {
 	
+	Integer pieceNumber;
 	public GamePiece(){
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
 		this.setMinimumSize(new Dimension(100,100));
-		
 	}
-	
+	public GamePiece(int imageNumber){
+		pieceNumber = imageNumber;
+		this.setPreferredSize(new Dimension(103,103));
+		this.setMaximumSize(new Dimension(105,105));
+		this.setMinimumSize(new Dimension(100,100));
+	}
+
 	public void paint(Graphics g){
-		
-		g.setColor(Color.RED);
-		g.fillOval(2, 2, 100, 100);
+
+		if(pieceNumber!=null){
+			if(pieceNumber == 1){
+				g.setColor(Color.GREEN);
+				g.fillOval(2, 2, 100, 100);				
+			}else if(pieceNumber == 2){
+				g.setColor(Color.BLUE);
+				g.fillOval(2, 2, 100, 100);				
+			}else{
+				g.setColor(Color.RED);
+				g.fillOval(2, 2, 100, 100);
+			}
+		}
 	}
 	
 }
