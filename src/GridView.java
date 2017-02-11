@@ -11,7 +11,6 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 	private List<Tile> tileList = new ArrayList<>(); //List of all tiles drawn in grid
 	private int pieceX = 0;
 	private int pieceY = 0;
-	
 	public GridView(){ //Constructor for grid
 		super(new GridBagLayout());
 		final GridBagConstraints c = constraints(); //Constraints for grid
@@ -22,23 +21,23 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		this.revalidate();
 	}
 
-	public void tileClicked(Tile clicked,int gridX,int gridY){ //How Grid Reacts when told a tile got clicked
-		for(Tile thisTile: tileList){
-			if(thisTile == clicked){
-				if(gridX == pieceX && gridY == pieceY){
-					thisTile.displayPiece(new GamePiece(2));//Add a new piece at the clicked square										
-				}else{
-					thisTile.displayPiece(new GamePiece(1));//Add a new piece at the clicked square					
-				}
-			}else{
-				thisTile.erasePiece();
-			}
-		}
-		pieceX = gridX;
-		pieceY = gridY;
-		this.repaint();
-		this.revalidate();
-	}
+//	public void tileClicked(Tile clicked,int gridX,int gridY){ //How Grid Reacts when told a tile got clicked
+//		for(Tile thisTile: tileList){
+//			if(thisTile == clicked){
+//				if(gridX == pieceX && gridY == pieceY){
+//					thisTile.displayPiece(new GamePiece(2));//Add a new piece at the clicked square										
+//				}else{
+//					thisTile.displayPiece(new GamePiece(1));//Add a new piece at the clicked square					
+//				}
+//			}else{
+//				thisTile.erasePiece();
+//			}
+//		}
+//		pieceX = gridX;
+//		pieceY = gridY;
+//		this.repaint();
+//		this.revalidate();
+//	}
 
 	public GridBagConstraints constraints(){
 		GridBagConstraints c = new GridBagConstraints();

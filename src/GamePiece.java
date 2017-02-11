@@ -16,11 +16,8 @@ import javax.swing.*;
 public class GamePiece extends JPanel {
 	
 	Integer pieceNumber;
-	public GamePiece(){
-		this.setPreferredSize(new Dimension(103,103));
-		this.setMaximumSize(new Dimension(105,105));
-		this.setMinimumSize(new Dimension(100,100));
-	}
+	
+	
 	public GamePiece(int imageNumber){
 		pieceNumber = imageNumber;
 		this.setPreferredSize(new Dimension(103,103));

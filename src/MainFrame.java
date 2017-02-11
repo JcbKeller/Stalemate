@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MainFrame {
+public class MainFrame { //This Class manages the display frame and views
 	
 	public MainFrame(JComponent mainView, JComponent toolbar){
 		
