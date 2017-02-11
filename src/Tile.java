@@ -8,12 +8,12 @@ import javax.swing.*;
 
 public class Tile extends JComponent {//This Class handles individual tile responses
 
-	final Integer gridX, gridY;
-	GamePiece tilePiece = null;
+	private final Integer tileX, tileY;
+	private GamePiece tilePiece = null;
 
 	public Tile(GridView grid, Integer gridX, Integer gridY){
-		this.gridY = gridY;
-		this.gridX = gridX;
+		this.tileY = gridY;
+		this.tileX = gridX;
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
 		this.setMinimumSize(new Dimension(100,100));
@@ -22,10 +22,8 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Mouse click at ("+ gridX.toString()+","+ gridY.toString()+")");
-//				grid.tileClicked(Tile.this, gridX, gridY);
 				GameSystem.checkTile(Tile.this, gridX, gridY);
 			}
-
 		});
 
 	}
@@ -47,7 +45,7 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 		g.drawRect(2,2,100,100);
 
 		if(tilePiece!=null){
-			System.out.println("Painting piece at " + gridX + "," + gridY);
+			System.out.println("Painting piece at " + tileX + "," + tileY);
 			tilePiece.paint(g);
 		}
 	}

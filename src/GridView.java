@@ -7,37 +7,19 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class GridView extends JPanel { //This Class handles the layout of tiles
+//	private List<Tile> tileList = new ArrayList<>(); //List of all tiles drawn in grid
 
-	private List<Tile> tileList = new ArrayList<>(); //List of all tiles drawn in grid
-	private int pieceX = 0;
-	private int pieceY = 0;
-	public GridView(){ //Constructor for grid
+	public GridView(){
 		super(new GridBagLayout());
-		final GridBagConstraints c = constraints(); //Constraints for grid
+		final GridBagConstraints c = constraints();
 		this.setMinimumSize(new Dimension(10,10));
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.PINK);
-		drawTiles(c, 4, 4);
+		drawTiles(c, GameSystem.totalRows, GameSystem.totalColumns);
 		this.revalidate();
 	}
 
-//	public void tileClicked(Tile clicked,int gridX,int gridY){ //How Grid Reacts when told a tile got clicked
-//		for(Tile thisTile: tileList){
-//			if(thisTile == clicked){
-//				if(gridX == pieceX && gridY == pieceY){
-//					thisTile.displayPiece(new GamePiece(2));//Add a new piece at the clicked square										
-//				}else{
-//					thisTile.displayPiece(new GamePiece(1));//Add a new piece at the clicked square					
-//				}
-//			}else{
-//				thisTile.erasePiece();
-//			}
-//		}
-//		pieceX = gridX;
-//		pieceY = gridY;
-//		this.repaint();
-//		this.revalidate();
-//	}
+
 
 	public GridBagConstraints constraints(){
 		GridBagConstraints c = new GridBagConstraints();
@@ -57,7 +39,13 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 				c.gridx = column;
 				Tile newTile = new Tile(this,column,row); //Make tiles
 				this.add(newTile,c);//Add Tiles
-				tileList.add(newTile);//Update List of tiles
+				if (column == GameSystem.squareX && row == GameSystem.squareY){
+					newTile.displayPiece(new GamePiece(1));
+					GameSystem.squareTile = newTile;
+				}else if(column == GameSystem.circleX && row == GameSystem.circleY){
+					newTile.displayPiece(new GamePiece(2));					
+					GameSystem.circleTile = newTile;
+				}
 			}
 		}
 	}

@@ -15,7 +15,7 @@ import javax.swing.*;
 
 public class GamePiece extends JPanel {
 	
-	Integer pieceNumber;
+	private Integer pieceNumber;
 	
 	
 	public GamePiece(int imageNumber){
@@ -30,7 +30,7 @@ public class GamePiece extends JPanel {
 		if(pieceNumber!=null){
 			if(pieceNumber == 1){
 				g.setColor(Color.GREEN);
-				g.fillOval(2, 2, 100, 100);				
+				g.fillRect(2, 2, 95, 95);			
 			}else if(pieceNumber == 2){
 				g.setColor(Color.BLUE);
 				g.fillOval(2, 2, 100, 100);				

@@ -9,16 +9,15 @@ public class MainFrame { //This Class manages the display frame and views
 	
 	public MainFrame(JComponent mainView, JComponent toolbar){
 		
-		JFrame frame = setupFrame();
-		
 		JScrollPane scrollpane = new JScrollPane(mainView);
-		
+
+		JFrame frame = setupFrame();
 		frame.add(scrollpane,BorderLayout.CENTER);
 		frame.add(toolbar,BorderLayout.NORTH);
 	}
 	
 	private JFrame setupFrame(){
-		JFrame frame = new JFrame("Stalemate(Main Window)");		
+		JFrame frame = new JFrame("Stalemate (Main Window)");		
 		frame.setVisible(true);
 		frame.setSize(425, 525);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
