@@ -11,9 +11,10 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 	private final Integer tileX, tileY;
 	private GamePiece tilePiece = null;
 
-	public Tile(GridView grid, Integer gridX, Integer gridY){
-		this.tileY = gridY;
-		this.tileX = gridX;
+
+	public Tile(GridView grid, int[] tileCoordinates){	
+		this.tileY = tileCoordinates[1];
+		this.tileX = tileCoordinates[0];
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
 		this.setMinimumSize(new Dimension(100,100));
@@ -21,11 +22,10 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Mouse click at ("+ gridX.toString()+","+ gridY.toString()+")");
-				GameSystem.checkTile(Tile.this, gridX, gridY);
+				System.out.println("Mouse click at ("+ tileX.toString()+","+ tileY.toString()+")");
+				GameSystem.checkTile(Tile.this, tileCoordinates);
 			}
 		});
-
 	}
 
 	public void displayPiece(GamePiece requestedPiece) {//

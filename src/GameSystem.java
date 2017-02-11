@@ -2,23 +2,21 @@
 public class GameSystem { //Move all possible game logic to here
 
 	public static int totalRows = 4;
-	public static int totalColumns = 5;
+	public static int totalColumns = 4;
 	
-	public static int squareX = 1;
-	public static int squareY = 0;
+	public static int[] squareCoordinates = {1,0};
 	public static Tile squareTile;
 	
-	public static int circleX = 2;
-	public static int circleY = 0;
+	public static int[] circleCoordinates = {2,0};
 	public static Tile circleTile;
 
 	public static int selectedPiece = 0;
 
-	public static void checkTile(Tile thisTile, int tileX, int tileY){
-		if (tileX == squareX && tileY == squareY){ // If the Square is on the Tile, Select it
+	public static void checkTile(Tile thisTile, int[] tileCoordinates){
+		if (tileCoordinates[0] == squareCoordinates[0] && tileCoordinates[1] == squareCoordinates[1]){ // If the Square is on the Tile, Select it
 			selectedPiece = 1;
 			System.out.println("Selected Green/Square");
-		}else if(tileX == circleX && tileY == circleY){ // If the Circle is on the Tile, Select it
+		}else if(tileCoordinates[0] == circleCoordinates[0] && tileCoordinates[1] == circleCoordinates[1]){ // If the Circle is on the Tile, Select it
 			selectedPiece = 2;
 			System.out.println("Selected Blue/Circle");			
 		}else if(selectedPiece == 1){ // If a square has been selected, Move the square to the empty tile
@@ -27,8 +25,8 @@ public class GameSystem { //Move all possible game logic to here
 			}
 			squareTile = thisTile;
 			squareTile.displayPiece(new GamePiece(selectedPiece));
-			squareX = tileX;
-			squareY = tileY;
+			squareCoordinates[0] = tileCoordinates[0];
+			squareCoordinates[1] = tileCoordinates[1];
 			selectedPiece = 0;
 		}else if(selectedPiece == 2){ // If a circle has been selected, Move the circle to the empty tile
 			if (circleTile!=null){
@@ -36,8 +34,8 @@ public class GameSystem { //Move all possible game logic to here
 			}
 			circleTile = thisTile;
 			circleTile.displayPiece(new GamePiece(selectedPiece));
-			circleX = tileX;
-			circleY = tileY;
+			circleCoordinates[0] = tileCoordinates[0];
+			circleCoordinates[1] = tileCoordinates[1];
 			selectedPiece = 0;			
 		}
 		

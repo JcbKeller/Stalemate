@@ -19,8 +19,6 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		this.revalidate();
 	}
 
-
-
 	public GridBagConstraints constraints(){
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -37,12 +35,12 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 			c.gridy = row;
 			for(int column = 0; column < tileColumns; column++){
 				c.gridx = column;
-				Tile newTile = new Tile(this,column,row); //Make tiles
+				Tile newTile = new Tile(this,new int[] {column,row}); //Make tiles
 				this.add(newTile,c);//Add Tiles
-				if (column == GameSystem.squareX && row == GameSystem.squareY){
+				if (column == GameSystem.squareCoordinates[0] && row == GameSystem.squareCoordinates[1]){
 					newTile.displayPiece(new GamePiece(1));
 					GameSystem.squareTile = newTile;
-				}else if(column == GameSystem.circleX && row == GameSystem.circleY){
+				}else if(column == GameSystem.circleCoordinates[0] && row == GameSystem.circleCoordinates[1]){
 					newTile.displayPiece(new GamePiece(2));					
 					GameSystem.circleTile = newTile;
 				}
