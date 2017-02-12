@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class GridView extends JPanel { //This Class handles the layout of tiles
-//	private List<Tile> tileList = new ArrayList<>(); //List of all tiles drawn in grid
+	final GridBagConstraints c = constraints();
 
 	public GridView(){
 		super(new GridBagLayout());
-		final GridBagConstraints c = constraints();
 		this.setMinimumSize(new Dimension(10,10));
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.PINK);
-		drawTiles(c, GameSystem.totalRows, GameSystem.totalColumns);
+		drawTiles();
+		GameSystem.grid = this;
 		this.revalidate();
 	}
 
@@ -30,23 +30,52 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		return c;
 	}
 	
-	private void drawTiles(GridBagConstraints c, int tileRows, int tileColumns){
-		for(int row = 0; row < tileRows; row++){ //Iterate and create grid tiles
+	public void drawTiles(){
+		System.out.println("Running Grid Draw Function");
+		for(int row = 0; row < GameSystem.totalRows; row++){ //Iterate and create grid tiles
 			c.gridy = row;
-			for(int column = 0; column < tileColumns; column++){
+			for(int column = 0; column < GameSystem.totalColumns; column++){
 				c.gridx = column;
 				Tile newTile = new Tile(this,new int[] {column,row}); //Make tiles
+				GameSystem.tileList.add(newTile);
 				this.add(newTile,c);//Add Tiles
-				if (column == GameSystem.squareCoordinates[0] && row == GameSystem.squareCoordinates[1]){
+				if (column == Square.coordinates[0] && row == Square.coordinates[1]){
 					newTile.displayPiece(new GamePiece(1));
-					GameSystem.squareTile = newTile;
-				}else if(column == GameSystem.circleCoordinates[0] && row == GameSystem.circleCoordinates[1]){
+					Square.currentTile = newTile; //Create the starting Square piece
+				}else if(column == Circle.coordinates[0] && row == Circle.coordinates[1]){
 					newTile.displayPiece(new GamePiece(2));					
-					GameSystem.circleTile = newTile;
+					Circle.currentTile = newTile; //Create the starting Circle piece
 				}
 			}
 		}
 	}
-
-
+	
+	public void showValidMoves(){
+		this.removeAll();
+		this.revalidate();
+		System.out.println("Drawing Grid With Moves");
+		for(int row = 0; row < GameSystem.totalRows; row++){ //Iterate and create grid tiles
+			c.gridy = row;
+			for(int column = 0; column < GameSystem.totalColumns; column++){
+				c.gridx = column;
+				Tile newTile = new Tile(this,new int[] {column,row}); //Make tiles
+				GameSystem.tileList.add(newTile);
+				this.add(newTile,c);//Add Tiles
+				if (column == Square.coordinates[0] && row == Square.coordinates[1]){
+					newTile.displayPiece(new GamePiece(1));
+					Square.currentTile = newTile; //Create the Square piece
+				}else if(column == Circle.coordinates[0] && row == Circle.coordinates[1]){
+					newTile.displayPiece(new GamePiece(2));					
+					Circle.currentTile = newTile; //Create the Circle piece
+				}else if(GameSystem.selectedPiece == 1 && Square.checkMoveValidity(new int[]{column,row}) == true){
+					newTile.setAsMovable();
+				}else if(GameSystem.selectedPiece == 2 && Circle.checkMoveValidity(new int[]{column,row}) == true){
+					newTile.setAsMovable();
+				}else{
+					newTile.setAsImmovable();					
+				}
+			}
+		}
+		this.revalidate();
+	}
 }

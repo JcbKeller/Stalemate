@@ -17,7 +17,6 @@ public class GamePiece extends JPanel {
 	
 	private Integer pieceNumber;
 	
-	
 	public GamePiece(int imageNumber){
 		pieceNumber = imageNumber;
 		this.setPreferredSize(new Dimension(103,103));
@@ -30,7 +29,7 @@ public class GamePiece extends JPanel {
 		if(pieceNumber!=null){
 			if(pieceNumber == 1){
 				g.setColor(Color.GREEN);
-				g.fillRect(2, 2, 95, 95);			
+				g.fillRect(5, 5, 95, 95);			
 			}else if(pieceNumber == 2){
 				g.setColor(Color.BLUE);
 				g.fillOval(2, 2, 100, 100);				

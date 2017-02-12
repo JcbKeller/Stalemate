@@ -7,11 +7,11 @@ import javax.swing.*;
 
 
 public class Tile extends JComponent {//This Class handles individual tile responses
-
+	
 	private final Integer tileX, tileY;
 	private GamePiece tilePiece = null;
-
-
+	private Integer tilecolor = 0;
+	
 	public Tile(GridView grid, int[] tileCoordinates){	
 		this.tileY = tileCoordinates[1];
 		this.tileX = tileCoordinates[0];
@@ -28,21 +28,34 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 		});
 	}
 
-	public void displayPiece(GamePiece requestedPiece) {//
+	public void displayPiece(GamePiece requestedPiece) {
 		this.tilePiece = requestedPiece;
 		repaint();
 	}
-
 	public void erasePiece(){
 		this.tilePiece = null;
 		repaint();
 	}
-
+	public void setAsMovable(){
+		this.tilecolor = 1;
+		repaint();
+	}
+	public void setAsImmovable(){
+		this.tilecolor = 0;
+		repaint();
+	}
 	public void paint(Graphics g){
-		g.setColor(Color.WHITE);
-		g.fillRect(2,2,100,100);
-		g.setColor(Color.BLACK);
-		g.drawRect(2,2,100,100);
+		if(tilecolor == 1){
+			g.setColor(Color.WHITE);
+			g.fillRect(2,2,100,100);
+			g.setColor(Color.BLACK);
+			g.drawRect(2,2,100,100);			
+		}else{
+			g.setColor(Color.GRAY);
+			g.fillRect(2,2,100,100);
+			g.setColor(Color.BLACK);
+			g.drawRect(2,2,100,100);						
+		}
 
 		if(tilePiece!=null){
 			System.out.println("Painting piece at " + tileX + "," + tileY);
