@@ -34,6 +34,7 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		c.anchor = GridBagConstraints.CENTER;
 		return c;
 	}
+	
 	public void initializeGrid(){
 		for(int column = 0; column < GameSystem.totalColumns; column ++){
 			c.gridx = column;
@@ -68,6 +69,7 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		}
 		this.repaint();
 	}
+	
 	public void unvalidateMoves(){ // Sets All tiles to Immovable
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
@@ -75,6 +77,7 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		}
 		this.repaint();
 	}
+	
 	public void showValidMoves(int pieceValue){ // Sets all movable Tiles to Movable = true
 		GameSystem.currentPiece = pieceValue;
 		piece = GameSystem.pieceList.get(pieceValue);

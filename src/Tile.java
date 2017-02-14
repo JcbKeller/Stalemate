@@ -33,8 +33,6 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 					GameSystem.grid.unvalidateMoves();
 				}else{ // Selected Piece CAN move here
 					GameSystem.changePieceCoordinates(coordinates);
-					GameSystem.grid.undrawPieces();
-					GameSystem.grid.drawPieces();
 					System.out.println("Movable Square");
 				}
 

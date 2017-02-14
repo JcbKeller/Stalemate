@@ -3,27 +3,23 @@ import java.awt.Graphics;
 
 public class Circle extends Piece{
 	
-	private int[] coordinates;
-
 	public boolean checkIfValidMove(Tile tile){
-		if(tile.getCoordinates()[1] == coordinates[1]){
+		if(xDistance(tile,this) == 2 && yDistance(tile,this) == 0 || xDistance(tile,this) == 0 && yDistance(tile,this) == 2){
 			return true;			
 		}else{
 			return false;
 		}
 	}
-	
-	public int[] getPieceCoordinates(){
-		return this.coordinates;
+	private int xDistance(Tile tile, Piece piece){
+		return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
 	}
-	
-	public void setPieceCoordinates(int[] newCoordinates){
-		this.coordinates = newCoordinates;
+	private int yDistance(Tile tile, Piece piece){
+		return Math.abs(tile.getCoordinates()[1]-piece.getPieceCoordinates()[1]);
 	}
 
 	public void paint(Graphics g){
-		g.setColor(Color.BLUE);
-		g.fillOval(2, 2, 100, 100);
+		g.setColor(Color.RED);
+		g.fillOval(10, 10, 85, 85);
 	}
 
 }
