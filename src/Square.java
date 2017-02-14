@@ -1,16 +1,29 @@
+import java.awt.Color;
+import java.awt.Graphics;
 
-public class Square {
-	public static int[] coordinates = {1,0};
-	public static Tile currentTile;
-	public static int pieceValue = 1;
+public class Square extends Piece{
 	
-	public static boolean checkMoveValidity(int[] tileLocation){
-		if(tileLocation[0] == coordinates[0]){
-			System.out.println("Square can Move Here");
-			return true;
+	private int[] coordinates;
+	
+	public boolean checkIfValidMove(Tile tile){
+		if(tile.getCoordinates()[0] == coordinates[0]){
+			return true;			
 		}else{
-			return false;			
+			return false;
 		}
 	}
 	
+	public int[] getPieceCoordinates(){
+		return this.coordinates;
+	}
+	
+	public void setPieceCoordinates(int[] newCoordinates){
+		this.coordinates = newCoordinates;
+	}
+	
+	public void paint(Graphics g){
+		g.setColor(Color.GREEN);
+		g.fillRect(5, 5, 95, 95);
+	}
+
 }

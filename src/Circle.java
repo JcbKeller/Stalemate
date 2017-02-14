@@ -1,15 +1,29 @@
+import java.awt.Color;
+import java.awt.Graphics;
 
-public class Circle {
-	public static int[] coordinates = {2,0};
-	public static Tile currentTile;
-	public static int pieceValue = 2;
+public class Circle extends Piece{
 	
-	public static boolean checkMoveValidity(int[] tileLocation){
-		if(tileLocation[1] == coordinates[1]){
-			System.out.println("Circle can Move Here");
-			return true;
+	private int[] coordinates;
+
+	public boolean checkIfValidMove(Tile tile){
+		if(tile.getCoordinates()[1] == coordinates[1]){
+			return true;			
 		}else{
-			return false;			
+			return false;
 		}
 	}
+	
+	public int[] getPieceCoordinates(){
+		return this.coordinates;
+	}
+	
+	public void setPieceCoordinates(int[] newCoordinates){
+		this.coordinates = newCoordinates;
+	}
+
+	public void paint(Graphics g){
+		g.setColor(Color.BLUE);
+		g.fillOval(2, 2, 100, 100);
+	}
+
 }
