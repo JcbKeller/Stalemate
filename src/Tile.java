@@ -35,6 +35,7 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 //							GameSystem.pieceList.get(containedPiece).team = 2;
 							GameSystem.pieceList.get(containedPiece).setPieceCoordinates(new int[] {100,100});
 							GameSystem.changePieceCoordinates(coordinates);
+							GameSystem.changeTurns();
 							GameSystem.grid.undrawPieces();
 							GameSystem.grid.drawPieces();
 						}
