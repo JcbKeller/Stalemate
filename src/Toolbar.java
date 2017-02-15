@@ -15,6 +15,7 @@ public class Toolbar extends JPanel{
 	private JButton button1;
 	private JButton button2;
 	private JButton button3;
+	private JButton button4;
 	private JLabel label;
 	
 	public Toolbar(){
@@ -22,7 +23,8 @@ public class Toolbar extends JPanel{
 		button1 = new JButton("DEBUG: Undraw");
 		button2 = new JButton("DEBUG: Draw");
 		button3 = new JButton("DEBUG: Move");
-		label = new JLabel("TestLabel");
+		button4 = new JButton("DEBUG: Switch Turns");
+		label = new JLabel("DEBUG Tools");
 		
 		button1.addActionListener(new ActionListener() {
 			@Override
@@ -45,6 +47,13 @@ public class Toolbar extends JPanel{
 				GameSystem.pieceList.get(0).setPieceCoordinates(new int[]{1,1});
 			}
 		});
+		button4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Switching Team Turn");
+				GameSystem.changeTurns();
+			}
+		});
 		GridBagConstraints c = new GridBagConstraints();		
 		c.gridx = 0;
 		c.gridy = 1;
@@ -55,6 +64,9 @@ public class Toolbar extends JPanel{
 		c.gridx = 2;
 		c.gridy = 1;
 		this.add(button3,c);
+		c.gridx = 3;
+		c.gridy = 1;
+		this.add(button4,c);
 		this.add(label);
 	    this.setBackground(Color.LIGHT_GRAY);
 		

@@ -11,9 +11,9 @@ public class Stalemate {
 		GameSystem.addPieceToGame(new Circle(), new int[] {2,0},1);
 		GameSystem.addPieceToGame(new Triangle(), new int[] {3,0},1);
 
-		GameSystem.addPieceToGame(new Square(), new int[] {1,5},1);
-		GameSystem.addPieceToGame(new Circle(), new int[] {2,5},1);
-		GameSystem.addPieceToGame(new Triangle(), new int[] {3,5},1);
+		GameSystem.addPieceToGame(new Square(), new int[] {1,5},2);
+		GameSystem.addPieceToGame(new Circle(), new int[] {2,5},2);
+		GameSystem.addPieceToGame(new Triangle(), new int[] {3,5},2);
 	}
 	
 }
