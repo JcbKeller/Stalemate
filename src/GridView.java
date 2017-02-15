@@ -41,9 +41,7 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 			for(int row = 0; row < GameSystem.totalRows; row ++){
 				c.gridy = row;
 				Tile newTile = new Tile(this,new int[] {column,row});
-				if(checkForWinnableTile(column,row) == true){
-					newTile.setAsWinnable();
-				}
+				newTile.setAsWinnable(checkForWinnableTile(column,row));
 				this.add(newTile,c);
 				GameSystem.tileList.add(newTile);
 			}
@@ -94,15 +92,22 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		}
 		this.repaint();
 	}
-	public boolean checkForWinnableTile(int x, int y){
-		if (y == 0 || y == GameSystem.totalRows-1){
+	public int checkForWinnableTile(int x, int y){
+		if (y == 0){
 			if(x == 1|| x == 2|| x == 3){
-				return true;
+				return 1;
 			}else{
-				return false;
+				return 0;
 			}
+		}else if(y == GameSystem.totalRows-1){
+			if(x == 1|| x == 2|| x == 3){
+				return 2;
+			}else{
+				return 0;
+			}
+			
 		}else{
-			return false;
+			return 0;
 		}
 	}
 	

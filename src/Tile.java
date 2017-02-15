@@ -10,7 +10,7 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 	
 	private int[] coordinates;
 	private int containedPiece = -1;
-	private boolean winnable = false;
+	private int winnable = 0;
 	private boolean moveable = false;
 	
 	public Tile(GridView grid, int[] tileCoordinates){	
@@ -31,13 +31,13 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 						GameSystem.grid.showValidMoves(containedPiece);
 					}else{
 						if(moveable == true){
-							System.out.println("Attempt To Capture");						
-//							GameSystem.pieceList.get(containedPiece).team = 2;
-							GameSystem.pieceList.get(containedPiece).setPieceCoordinates(new int[] {100,100});
-							GameSystem.changePieceCoordinates(coordinates);
-							GameSystem.changeTurns();
-							GameSystem.grid.undrawPieces();
-							GameSystem.grid.drawPieces();
+							System.out.println("Attempt To Capture");
+							if(winnable == 0){
+								GameSystem.pieceList.get(containedPiece).setPieceCoordinates(new int[] {100,100});
+								GameSystem.movePiece(coordinates);								
+							}else{
+								System.out.println("Cannot Capture Base Pieces");								
+							}
 						}
 					}
 				}else if(moveable == false){ // Selected Piece Cannot Move Here
@@ -45,9 +45,10 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 					GameSystem.currentPiece = -1;
 					GameSystem.grid.unvalidateMoves();
 				}else{ // Selected Piece CAN move here
-					GameSystem.changePieceCoordinates(coordinates);
+//					GameSystem.changePieceCoordinates(coordinates);
 					System.out.println("Movable Square");
-					GameSystem.changeTurns();
+//					GameSystem.changeTurns();
+					GameSystem.movePiece(coordinates);
 				}
 
 			}
@@ -62,8 +63,8 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 	public int[] getCoordinates(){
 		return this.coordinates;
 	}
-	public void setAsWinnable(){
-		winnable = true;
+	public void setAsWinnable(int team){
+		winnable = team;
 	}
 	public void paint(Graphics g){
 		if(moveable == false){
@@ -73,8 +74,11 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 			g.setColor(Color.WHITE);
 			g.fillRect(2,2,100,100);
 		}
-		if(winnable == true){
-			g.setColor(Color.GREEN);
+		if(winnable == 1){
+			g.setColor(Color.BLUE);
+			g.drawRect(2,2,100,100);			
+		}else if(winnable == 2){
+			g.setColor(Color.RED);
 			g.drawRect(2,2,100,100);			
 		}else{
 			g.setColor(Color.BLACK);

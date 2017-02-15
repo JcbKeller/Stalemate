@@ -25,7 +25,12 @@ public class GameSystem {
 	public static int getCurrentTeam(){
 		return turn;
 	}
-	
+	public static void movePiece(int[] coordinates){
+		changePieceCoordinates(coordinates);
+		changeTurns();
+		grid.undrawPieces();
+		grid.drawPieces();
+	}
 	public static void addPieceToGame(Piece newPiece, int[] startingCoordinates, int pieceTeam){
 		newPiece.setPieceCoordinates(startingCoordinates);
 		newPiece.setTeam(pieceTeam);
