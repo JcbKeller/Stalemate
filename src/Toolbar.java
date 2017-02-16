@@ -13,28 +13,32 @@ public class Toolbar extends JPanel{
 	private JButton button3;
 	private JButton button4;
 	private JLabel label;
-
+	private RulesWindow rulesWindow;
+	
 	public Toolbar(GameSystem gameSystem){
 		super(new GridBagLayout());
-		button1 = new JButton("DEBUG: Undo");
-		button2 = new JButton("DEBUG: Draw");
-		button4 = new JButton("DEBUG: Start New Game");
-		button3 = new JButton("DEBUG: Switch Turns");
-		label = new JLabel("DEBUG Tools");
+		button1 = new JButton("Show Rules");
+		button2 = new JButton("Undo Move");
+		button4 = new JButton("Start New Game");
+		button3 = new JButton("Switch Teams");
+		label = new JLabel("Options Menu");
 
+		rulesWindow = new RulesWindow();
+		
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Undoing Last Move");
-				gameSystem.undoLastMove();
+				System.out.println("Attempting to show rules");
+				rulesWindow.rulesFrame.setVisible(true);
+
 			}
 		});
 		
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Calling drawPieces");
-				gameSystem.getGrid().drawPieces();
+				System.out.println("Undoing Last Move");
+				gameSystem.undoLastMove();
 			}
 		});
 		

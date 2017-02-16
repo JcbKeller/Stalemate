@@ -45,6 +45,7 @@ public class Tile extends JComponent {
 					if(grid.gameSystem.checkForWin(tileType)){
 						grid.gameSystem.movePiece(coordinates);
 						System.out.println("Team " + tileType + " Wins!!");
+						grid.gameSystem.showTeamWin(tileType);
 					}else{
 						grid.gameSystem.movePiece(coordinates);
 
