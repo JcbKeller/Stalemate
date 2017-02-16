@@ -1,16 +1,15 @@
-import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Piece {
-	
+
 	protected int[] coordinates;
-	
+
 	protected int team;
-		
+
 	public int[] getPieceCoordinates(){
 		return this.coordinates;
 	}
-	
+
 	public void setTeam(int newTeam){
 		this.team = newTeam;
 	}

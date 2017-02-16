@@ -2,18 +2,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.List;
-import java.util.ArrayList;
 import javax.swing.JPanel;
 
-public class GridView extends JPanel { //This Class handles the layout of tiles
+public class GridView extends JPanel {
 	final GridBagConstraints c = constraints();
 	final int numberOfRows = 4;
 	final int numberOfColumns = 4;
-	
+
 	private Tile tile;
 	private Piece piece;
-	
+
 	public GridView(){
 		super(new GridBagLayout());
 		this.setMinimumSize(new Dimension(10,10));
@@ -34,7 +32,7 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		c.anchor = GridBagConstraints.CENTER;
 		return c;
 	}
-	
+
 	public void initializeGrid(){
 		for(int column = 0; column < GameSystem.totalColumns; column ++){
 			c.gridx = column;
@@ -48,68 +46,75 @@ public class GridView extends JPanel { //This Class handles the layout of tiles
 		}
 		this.repaint();
 	}
-	
-	public void drawPieces(){ // Draws All Pieces on the Tiles with the same Coordinates
+
+	public void drawPieces(){
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
 			for(int pieceValue = 0; pieceValue< GameSystem.pieceList.size(); pieceValue++){
 				piece = GameSystem.pieceList.get(pieceValue);
-				if(tile.getCoordinates()[0] == piece.getPieceCoordinates()[0] && tile.getCoordinates()[1] == piece.getPieceCoordinates()[1] ){
-					System.out.println("Detected Piece "+pieceValue+" at x = " + piece.getPieceCoordinates()[0] + " y = " + piece.getPieceCoordinates()[1]);
+				if(checkForSameCoordinates(tile, piece) == true ){
 					tile.setPieceValue(pieceValue);
 				}
 			}
 		}
 		this.repaint();
 	}
-	
-	public void undrawPieces(){ // Removes Pieces from all Tiles
+
+	public void undrawPieces(){
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
 			tile.setPieceValue(-1);
 		}
 		this.repaint();
 	}
-	
-	public void unvalidateMoves(){ // Sets All tiles to Immovable
+
+	public void unvalidateMoves(){
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
 			tile.setMoveable(false);
 		}
 		this.repaint();
 	}
-	
-	public void showValidMoves(int pieceValue){ // Sets all movable Tiles to Movable = true
+
+	public void showValidMoves(int pieceValue){
 		GameSystem.currentPiece = pieceValue;
 		piece = GameSystem.pieceList.get(pieceValue);
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
-			if(piece.checkIfValidMove(tile) == true){ // CHECKIFVALIDMOVE controls which Tiles become white/moveable
+			if(piece.checkIfValidMove(tile) == true){
 				tile.setMoveable(true);
-			}else{                        // Change IF statement to:   tile.setMoveable(piece.checkIfValidMove);
+			}else{
 				tile.setMoveable(false);
 			}
 		}
 		this.repaint();
 	}
+
 	public int checkForWinnableTile(int x, int y){
 		if (y == 0){
-			if(x == 1|| x == 2|| x == 3){
-				return 1;
-			}else{
-				return 0;
-			}
-		}else if(y == GameSystem.totalRows-1){
 			if(x == 1|| x == 2|| x == 3){
 				return 2;
 			}else{
 				return 0;
 			}
-			
+		}else if(y == GameSystem.totalRows-1){
+			if(x == 1|| x == 2|| x == 3){
+				return 1;
+			}else{
+				return 0;
+			}
+
 		}else{
 			return 0;
 		}
 	}
-	
-	
+
+	public boolean checkForSameCoordinates(Tile tile, Piece piece){
+		if(tile.getCoordinates()[0] == piece.getPieceCoordinates()[0] && tile.getCoordinates()[1] == piece.getPieceCoordinates()[1]){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

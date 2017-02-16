@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Square extends Piece{
-	
+
 	public boolean checkIfValidMove(Tile tile){
 		if(xDistance(tile,this) ==1 && yDistance(tile,this) <=0 || xDistance(tile,this) <=0 && yDistance(tile,this) ==1 ){
 			return true;
@@ -10,11 +10,11 @@ public class Square extends Piece{
 			if(wrapXDistance(tile,this) ==1 && yDistance(tile,this) <=0 || wrapXDistance(tile,this) <=0 && yDistance(tile,this) ==1 ){
 				return true;
 			}else{
-			return false;
+				return false;
 			}
 		}
 	}
-	private int xDistance(Tile tile, Piece piece){ //CHANGE TO THIS TO DISABLE SCREEN WRAP!!
+	private int xDistance(Tile tile, Piece piece){
 		return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
 	}
 	private int wrapXDistance(Tile tile, Piece piece){
@@ -38,8 +38,6 @@ public class Square extends Piece{
 	private int yDistance(Tile tile, Piece piece){
 		return Math.abs(tile.getCoordinates()[1]-piece.getPieceCoordinates()[1]);
 	}
-	
-	// MOVEMENT FOR TRIANGLE: tile.getCoordinates()[0] + tile.getCoordinates()[1] == coordinates[0] + coordinates[1] || tile.getCoordinates()[0] - tile.getCoordinates()[1] == coordinates[0] - coordinates[1]	
 
 	public void paint(Graphics g){
 		if(team == 1){

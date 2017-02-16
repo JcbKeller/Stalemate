@@ -1,21 +1,18 @@
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
-public class MainFrame { //This Class manages the display frame and views
-	
+public class MainFrame {
+
 	public MainFrame(JComponent mainView, JComponent toolbar){
-		
+
 		JScrollPane scrollpane = new JScrollPane(mainView);
 
 		JFrame frame = setupFrame();
 		frame.add(scrollpane,BorderLayout.CENTER);
 		frame.add(toolbar,BorderLayout.NORTH);
 	}
-	
+
 	private JFrame setupFrame(){
 		JFrame frame = new JFrame("Stalemate (Main Window)");		
 		frame.setVisible(true);
@@ -25,5 +22,5 @@ public class MainFrame { //This Class manages the display frame and views
 		frame.setMinimumSize(new Dimension(300,350));
 		return frame;
 	}
-	
+
 }

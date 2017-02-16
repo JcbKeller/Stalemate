@@ -1,18 +1,15 @@
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Tile extends JComponent {//This Class handles individual tile responses
-	
+public class Tile extends JComponent {
+
 	private int[] coordinates;
 	private int containedPiece = -1;
-	private int winnable = 0;
+	private int tileType = 0;
 	private boolean moveable = false;
-	
+
 	public Tile(GridView grid, int[] tileCoordinates){	
 		this.coordinates = tileCoordinates;
 		this.setPreferredSize(new Dimension(103,103));
@@ -24,48 +21,53 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Mouse click at ("+ coordinates[0]+","+ coordinates[1]+")");
 				System.out.println("ContainedPiece = "+containedPiece);
-				if(containedPiece != -1){ // Clicked on Piece
-					if(GameSystem.pieceList.get(containedPiece).team == GameSystem.getCurrentTeam()){
-						GameSystem.currentPiece = containedPiece;
-						System.out.println("Showing Valid Moves");
-						GameSystem.grid.showValidMoves(containedPiece);
+				if(containedPiece != -1){
+					if(GameSystem.checkForCurrentTeam(containedPiece) == true){
+						GameSystem.respondToPieceClick(containedPiece);
 					}else{
 						if(moveable == true){
 							System.out.println("Attempt To Capture");
-							if(winnable == 0){
-								GameSystem.pieceList.get(containedPiece).setPieceCoordinates(new int[] {100,100});
-								GameSystem.movePiece(coordinates);								
+							if(tileType == 0){
+								GameSystem.capturePiece(containedPiece,coordinates);
 							}else{
 								System.out.println("Cannot Capture Base Pieces");								
 							}
 						}
 					}
-				}else if(moveable == false){ // Selected Piece Cannot Move Here
+				}else if(moveable == false){
 					System.out.println("No Piece or Valid Move");
-					GameSystem.currentPiece = -1;
-					GameSystem.grid.unvalidateMoves();
-				}else{ // Selected Piece CAN move here
-//					GameSystem.changePieceCoordinates(coordinates);
+					GameSystem.unselectPiece();
+				}else{
 					System.out.println("Movable Square");
-//					GameSystem.changeTurns();
-					GameSystem.movePiece(coordinates);
+					if(GameSystem.checkForWin(tileType)){
+						GameSystem.movePiece(coordinates);
+						System.out.println("Team " + tileType + " Wins!!");
+					}else{
+						GameSystem.movePiece(coordinates);
+
+					}
 				}
 
 			}
 		});
 	}
+
 	public void setMoveable(boolean movability){
 		moveable = movability;
 	}
+
 	public void setPieceValue(int pieceValue){
 		containedPiece = pieceValue;
 	}
+
 	public int[] getCoordinates(){
 		return this.coordinates;
 	}
+
 	public void setAsWinnable(int team){
-		winnable = team;
+		tileType = team;
 	}
+
 	public void paint(Graphics g){
 		if(moveable == false){
 			g.setColor(Color.LIGHT_GRAY);
@@ -74,11 +76,12 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 			g.setColor(Color.WHITE);
 			g.fillRect(2,2,100,100);
 		}
-		if(winnable == 1){
-			g.setColor(Color.BLUE);
-			g.drawRect(2,2,100,100);			
-		}else if(winnable == 2){
+
+		if(tileType == 1){
 			g.setColor(Color.RED);
+			g.drawRect(2,2,100,100);			
+		}else if(tileType == 2){
+			g.setColor(Color.BLUE);
 			g.drawRect(2,2,100,100);			
 		}else{
 			g.setColor(Color.BLACK);
@@ -86,7 +89,7 @@ public class Tile extends JComponent {//This Class handles individual tile respo
 		}
 
 		if(containedPiece != -1){
-			GameSystem.pieceList.get(containedPiece).paint(g);;
+			GameSystem.pieceList.get(containedPiece).paint(g);
 		}
 	}
 

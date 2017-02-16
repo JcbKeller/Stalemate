@@ -6,7 +6,7 @@ public class Triangle extends Piece {
 	private int[] xPoints = {5,50,95};
 	private int[] yPoints = {90,10,90};
 	private int nPoints = 3;
-	
+
 	protected boolean checkIfValidMove(Tile tile) {
 		if(xDistance(tile,this) == 1 && + yDistance(tile,this) == 1){
 			return true;
@@ -14,13 +14,13 @@ public class Triangle extends Piece {
 			if(wrapXDistance(tile,this) == 1 && + yDistance(tile,this) == 1){
 				return true;
 			}else{
-			return false;
+				return false;
 			}
 		}
 	}
-	private int xDistance(Tile tile, Piece piece){ //CHANGE TO THIS TO DISABLE SCREEN WRAP!!
-	return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
-}
+	private int xDistance(Tile tile, Piece piece){
+		return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
+	}
 	private int wrapXDistance(Tile tile, Piece piece){
 		if(this.coordinates[0] > GameSystem.totalColumns-2){
 			if(tile.getCoordinates()[0] < 2){

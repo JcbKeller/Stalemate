@@ -3,10 +3,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,15 +13,15 @@ public class Toolbar extends JPanel{
 	private JButton button3;
 	private JButton button4;
 	private JLabel label;
-	
+
 	public Toolbar(){
 		super(new GridBagLayout());
 		button1 = new JButton("DEBUG: Undraw");
 		button2 = new JButton("DEBUG: Draw");
-		button3 = new JButton("DEBUG: Move");
+		button3 = new JButton("DEBUG: Start New Game");
 		button4 = new JButton("DEBUG: Switch Turns");
 		label = new JLabel("DEBUG Tools");
-		
+
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -44,7 +40,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Changing piece 0 coordinates");
-				GameSystem.pieceList.get(0).setPieceCoordinates(new int[]{1,1});
+				Stalemate.resetGame();
 			}
 		});
 		button4.addActionListener(new ActionListener() {
@@ -68,8 +64,8 @@ public class Toolbar extends JPanel{
 		c.gridy = 1;
 		this.add(button4,c);
 		this.add(label);
-	    this.setBackground(Color.LIGHT_GRAY);
-		
+		this.setBackground(Color.LIGHT_GRAY);
+
 	}
 }
 
