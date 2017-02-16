@@ -17,6 +17,7 @@ public class GameSystem {
 	private GridView grid;
 	private int currentTeam = 1;
 	private int currentPiece = -1;
+	private int lastMovedPiece = -1;
 
 	public void changeTurns(){
 		if(currentTeam == 1){
@@ -50,6 +51,7 @@ public class GameSystem {
 
 	public void changePieceCoordinates(int[] newCoordinates){
 		pieceList.get(currentPiece).setPieceCoordinates(newCoordinates);
+		lastMovedPiece = currentPiece;
 		currentPiece = -1;
 		grid.undrawPieces();
 		grid.unvalidateMoves();
@@ -122,5 +124,17 @@ public class GameSystem {
 	}
 	public void addTileToList(Tile tile){
 		tileList.add(tile);
+	}
+	public void undoLastMove(){
+		if(lastMovedPiece == -1){
+			System.out.print("No Previous Moves");
+		}else{
+			System.out.print("Attempting Undo");
+			currentPiece = lastMovedPiece;
+			movePiece(pieceList.get(lastMovedPiece).lastCoordinates);
+
+			grid.undrawPieces();
+			grid.drawPieces();
+		}
 	}
 }
