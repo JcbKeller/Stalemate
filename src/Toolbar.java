@@ -14,42 +14,46 @@ public class Toolbar extends JPanel{
 	private JButton button4;
 	private JLabel label;
 
-	public Toolbar(){
+	public Toolbar(GameSystem gameSystem){
 		super(new GridBagLayout());
 		button1 = new JButton("DEBUG: Undraw");
 		button2 = new JButton("DEBUG: Draw");
-		button3 = new JButton("DEBUG: Start New Game");
-		button4 = new JButton("DEBUG: Switch Turns");
+		button4 = new JButton("DEBUG: Start New Game");
+		button3 = new JButton("DEBUG: Switch Turns");
 		label = new JLabel("DEBUG Tools");
 
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Calling undrawPieces");
-				GameSystem.grid.undrawPieces();
+				GameSystem.getGrid().undrawPieces();
 			}
 		});
+		
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Calling drawPieces");
-				GameSystem.grid.drawPieces();
+				GameSystem.getGrid().drawPieces();
 			}
 		});
+		
 		button3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Changing piece 0 coordinates");
-				Stalemate.resetGame();
-			}
-		});
-		button4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Switching Team Turn");
 				GameSystem.changeTurns();
 			}
 		});
+		
+		button4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Changing piece 0 coordinates");
+				Stalemate.resetGame();
+			}
+		});
+		
 		GridBagConstraints c = new GridBagConstraints();		
 		c.gridx = 0;
 		c.gridy = 1;
@@ -63,7 +67,9 @@ public class Toolbar extends JPanel{
 		c.gridx = 3;
 		c.gridy = 1;
 		this.add(button4,c);
+		
 		this.add(label);
+
 		this.setBackground(Color.LIGHT_GRAY);
 
 	}

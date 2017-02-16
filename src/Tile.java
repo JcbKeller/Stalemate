@@ -21,6 +21,7 @@ public class Tile extends JComponent {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Mouse click at ("+ coordinates[0]+","+ coordinates[1]+")");
 				System.out.println("ContainedPiece = "+containedPiece);
+				
 				if(containedPiece != -1){
 					if(GameSystem.checkForCurrentTeam(containedPiece) == true){
 						GameSystem.respondToPieceClick(containedPiece);
@@ -36,7 +37,7 @@ public class Tile extends JComponent {
 					}
 				}else if(moveable == false){
 					System.out.println("No Piece or Valid Move");
-					GameSystem.unselectPiece();
+					GameSystem.setCurrentPiece(-1);
 				}else{
 					System.out.println("Movable Square");
 					if(GameSystem.checkForWin(tileType)){

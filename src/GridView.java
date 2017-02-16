@@ -8,18 +8,21 @@ public class GridView extends JPanel {
 	final GridBagConstraints c = constraints();
 	final int numberOfRows = 4;
 	final int numberOfColumns = 4;
+	GameSystem gameSystem;
 
 	private Tile tile;
 	private Piece piece;
 
-	public GridView(){
+	public GridView(GameSystem newGameSystem){
 		super(new GridBagLayout());
+		System.out.println("Created Instance of GridView");
 		this.setMinimumSize(new Dimension(10,10));
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.GRAY);
+		gameSystem = newGameSystem;
+		gameSystem.setGrid(this);
 		initializeGrid();
 		this.revalidate();
-		GameSystem.grid = this;
 	}
 
 	public GridBagConstraints constraints(){
@@ -34,9 +37,9 @@ public class GridView extends JPanel {
 	}
 
 	public void initializeGrid(){
-		for(int column = 0; column < GameSystem.totalColumns; column ++){
+		for(int column = 0; column < GameSystem.getTotalColumns(); column ++){
 			c.gridx = column;
-			for(int row = 0; row < GameSystem.totalRows; row ++){
+			for(int row = 0; row < gameSystem.getTotalRows(); row ++){
 				c.gridy = row;
 				Tile newTile = new Tile(this,new int[] {column,row});
 				newTile.setAsWinnable(checkForWinnableTile(column,row));
@@ -52,7 +55,7 @@ public class GridView extends JPanel {
 			tile = GameSystem.tileList.get(tileValue);
 			for(int pieceValue = 0; pieceValue< GameSystem.pieceList.size(); pieceValue++){
 				piece = GameSystem.pieceList.get(pieceValue);
-				if(checkForSameCoordinates(tile, piece) == true ){
+				if(checkForIdenticalCoordinates(tile, piece) == true ){
 					tile.setPieceValue(pieceValue);
 				}
 			}
@@ -77,7 +80,7 @@ public class GridView extends JPanel {
 	}
 
 	public void showValidMoves(int pieceValue){
-		GameSystem.currentPiece = pieceValue;
+		GameSystem.setCurrentPiece(pieceValue);
 		piece = GameSystem.pieceList.get(pieceValue);
 		for(int tileValue = 0; tileValue< GameSystem.tileList.size(); tileValue++){
 			tile = GameSystem.tileList.get(tileValue);
@@ -97,19 +100,18 @@ public class GridView extends JPanel {
 			}else{
 				return 0;
 			}
-		}else if(y == GameSystem.totalRows-1){
+		}else if(y == gameSystem.getTotalRows()-1){
 			if(x == 1|| x == 2|| x == 3){
 				return 1;
 			}else{
 				return 0;
 			}
-
 		}else{
 			return 0;
 		}
 	}
 
-	public boolean checkForSameCoordinates(Tile tile, Piece piece){
+	public boolean checkForIdenticalCoordinates(Tile tile, Piece piece){
 		if(tile.getCoordinates()[0] == piece.getPieceCoordinates()[0] && tile.getCoordinates()[1] == piece.getPieceCoordinates()[1]){
 			return true;
 		}else{

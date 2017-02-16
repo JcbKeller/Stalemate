@@ -2,31 +2,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSystem {
+	//final List<Piece> pieceList = new ArrayList<>();
 
-	//ToDo: Change These Variables from statics
-	public static final int totalRows = 6;
-	public static final int totalColumns = 5;
+	public GameSystem(){
+		System.out.println("Created Instance of GameSystem");
+		//pieceList.add(new Square());
+//		addPieceToGame(new Square(), new int[] {1,0},1);
+//		addPieceToGame(new Circle(), new int[] {2,0},1);
+//		addPieceToGame(new Triangle(), new int[] {3,0},1);
+//		addPieceToGame(new Square(), new int[] {1,5},2);
+//		addPieceToGame(new Circle(), new int[] {2,5},2);
+//		addPieceToGame(new Triangle(), new int[] {3,5},2);
+	}
+	
 	public static final List<Piece> pieceList = new ArrayList<>();
 	public static final List<Tile> tileList = new ArrayList<>();
-	public static GridView grid;
-	public static final int windowX = 800;
-	public static final int windowY = 800;
+	
+	private static GridView grid;
+	
+	private final int totalRows = 6;
+	private static final int totalColumns = 5;
+	private static final int[] startingWindowSize = new int[] {800,800};
 
-	private static int turn = 1;
-
-	public static int currentPiece = -1; //ToDo: Make this variable only accessible through method calls
+	private static int currentTeam = 1;
+	private static int currentPiece = -1;
 
 	public static void changeTurns(){
-		if(turn == 1){
-			turn = 2;
+		if(currentTeam == 1){
+			currentTeam = 2;
 		}else{
-			turn = 1;
+			currentTeam = 1;
 		}
-		System.out.println("New Turn, team " + turn);
+		System.out.println("New Turn, team " + currentTeam);
 	}
 
 	public static int getCurrentTeam(){
-		return turn;
+		return currentTeam;
 	}
 
 	public static void movePiece(int[] coordinates){
@@ -36,7 +47,7 @@ public class GameSystem {
 		grid.drawPieces();
 	}
 
-	public static void addPieceToGame(Piece newPiece, int[] startingCoordinates, int pieceTeam){
+	public void addPieceToGame(Piece newPiece, int[] startingCoordinates, int pieceTeam){
 		newPiece.setPieceCoordinates(startingCoordinates);
 		newPiece.setTeam(pieceTeam);
 		pieceList.add(newPiece);
@@ -72,11 +83,6 @@ public class GameSystem {
 		movePiece(tileCoordinates);								
 	}
 
-	public static void unselectPiece(){
-		currentPiece = -1;
-		grid.unvalidateMoves();
-	}
-
 	public static boolean checkForWin(int teamNumber){
 		if(pieceList.get(GameSystem.currentPiece).getTeam() == teamNumber){
 			return true;
@@ -84,5 +90,28 @@ public class GameSystem {
 			return false;
 		}
 	}
-
+	
+	public static void setCurrentPiece(int pieceValue){
+		currentPiece = pieceValue;
+	}
+	
+	public int getTotalRows(){
+		return totalRows;
+	}
+	
+	public static int getTotalColumns(){
+		return totalColumns;
+	}
+	
+	public static int[] getStartingWindowSize(){
+		return startingWindowSize;
+	}
+	
+	public static GridView getGrid(){
+		return grid;
+	}
+	
+	public void setGrid(GridView newGrid){
+		grid = newGrid;
+	}
 }

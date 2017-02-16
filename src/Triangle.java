@@ -18,20 +18,21 @@ public class Triangle extends Piece {
 			}
 		}
 	}
+	
 	private int xDistance(Tile tile, Piece piece){
 		return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
 	}
+	
 	private int wrapXDistance(Tile tile, Piece piece){
-		if(this.coordinates[0] > GameSystem.totalColumns-2){
+		if(this.coordinates[0] > GameSystem.getTotalColumns()-2){
 			if(tile.getCoordinates()[0] < 2){
-				return Math.abs(tile.getCoordinates()[0]+GameSystem.totalColumns-piece.getPieceCoordinates()[0]);			
+				return Math.abs(tile.getCoordinates()[0]+GameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
-
 			}
 		}else if (this.coordinates[0] < 2){
-			if(tile.getCoordinates()[0] > GameSystem.totalColumns-2){
-				return Math.abs(tile.getCoordinates()[0]-GameSystem.totalColumns-piece.getPieceCoordinates()[0]);			
+			if(tile.getCoordinates()[0] > GameSystem.getTotalColumns()-2){
+				return Math.abs(tile.getCoordinates()[0]-GameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
 			}
@@ -39,10 +40,12 @@ public class Triangle extends Piece {
 			return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);						
 		}
 	}
+	
 	private int yDistance(Tile tile, Piece piece){
 		return Math.abs(tile.getCoordinates()[1]-piece.getPieceCoordinates()[1]);
 	}
-	protected void paint(Graphics g) {
+	
+	public void paint(Graphics g) {
 		if(team == 1){
 			g.setColor(Color.BLUE);			
 		}else{
