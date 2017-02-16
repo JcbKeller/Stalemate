@@ -26,7 +26,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Calling undrawPieces");
-				GameSystem.getGrid().undrawPieces();
+				gameSystem.getGrid().undrawPieces();
 			}
 		});
 		
@@ -34,7 +34,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Calling drawPieces");
-				GameSystem.getGrid().drawPieces();
+				gameSystem.getGrid().drawPieces();
 			}
 		});
 		
@@ -42,7 +42,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Switching Team Turn");
-				GameSystem.changeTurns();
+				gameSystem.changeTurns();
 			}
 		});
 		
@@ -50,7 +50,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Changing piece 0 coordinates");
-				Stalemate.resetGame();
+//				Stalemate.resetGame();
 			}
 		});
 		

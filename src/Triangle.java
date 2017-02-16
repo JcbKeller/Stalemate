@@ -24,15 +24,15 @@ public class Triangle extends Piece {
 	}
 	
 	private int wrapXDistance(Tile tile, Piece piece){
-		if(this.coordinates[0] > GameSystem.getTotalColumns()-2){
+		if(this.coordinates[0] > gameSystem.getTotalColumns()-2){
 			if(tile.getCoordinates()[0] < 2){
-				return Math.abs(tile.getCoordinates()[0]+GameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
+				return Math.abs(tile.getCoordinates()[0]+gameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
 			}
 		}else if (this.coordinates[0] < 2){
-			if(tile.getCoordinates()[0] > GameSystem.getTotalColumns()-2){
-				return Math.abs(tile.getCoordinates()[0]-GameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
+			if(tile.getCoordinates()[0] > gameSystem.getTotalColumns()-2){
+				return Math.abs(tile.getCoordinates()[0]-gameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
 			}

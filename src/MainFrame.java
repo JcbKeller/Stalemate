@@ -4,14 +4,6 @@ import javax.swing.*;
 
 public class MainFrame {
 
-	public MainFrame(JComponent mainView, JComponent toolbar){
-
-		JScrollPane scrollpane = new JScrollPane(mainView);
-
-		JFrame frame = setupFrame();
-		frame.add(scrollpane,BorderLayout.CENTER);
-		frame.add(toolbar,BorderLayout.NORTH);
-	}
 	public MainFrame(GameSystem gameSystem){
 		
 		GridView grid = new GridView(gameSystem);
@@ -20,16 +12,14 @@ public class MainFrame {
 		JComponent toolbar = new Toolbar(gameSystem);
 
 		
-		JFrame frame = setupFrame();
+		JFrame frame = setupFrame(gameSystem.getStartingWindowSize());
 		frame.add(scrollpane,BorderLayout.CENTER);
 		frame.add(toolbar,BorderLayout.NORTH);
-//		scrollpane.add(grid);
 
 	}
 
-	private JFrame setupFrame(){
-		JFrame frame = new JFrame("Stalemate (Main Window)");		
-		int[] windowSize = 	GameSystem.getStartingWindowSize();
+	private JFrame setupFrame(int[] windowSize){
+		JFrame frame = new JFrame("Stalemate (Main Window)");
 		frame.setVisible(true);
 		frame.setSize(windowSize[0],windowSize[1]);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

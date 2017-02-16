@@ -8,9 +8,11 @@ public class Tile extends JComponent {
 	private int[] coordinates;
 	private int containedPiece = -1;
 	private int tileType = 0;
+	private GridView grid;
 	private boolean moveable = false;
 
-	public Tile(GridView grid, int[] tileCoordinates){	
+	public Tile(GridView newGrid, int[] tileCoordinates){	
+		grid = newGrid;
 		this.coordinates = tileCoordinates;
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
@@ -23,13 +25,13 @@ public class Tile extends JComponent {
 				System.out.println("ContainedPiece = "+containedPiece);
 				
 				if(containedPiece != -1){
-					if(GameSystem.checkForCurrentTeam(containedPiece) == true){
-						GameSystem.respondToPieceClick(containedPiece);
+					if(grid.gameSystem.checkForCurrentTeam(containedPiece) == true){
+						grid.gameSystem.respondToPieceClick(containedPiece);
 					}else{
 						if(moveable == true){
 							System.out.println("Attempt To Capture");
 							if(tileType == 0){
-								GameSystem.capturePiece(containedPiece,coordinates);
+								grid.gameSystem.capturePiece(containedPiece,coordinates);
 							}else{
 								System.out.println("Cannot Capture Base Pieces");								
 							}
@@ -37,14 +39,14 @@ public class Tile extends JComponent {
 					}
 				}else if(moveable == false){
 					System.out.println("No Piece or Valid Move");
-					GameSystem.setCurrentPiece(-1);
+					grid.gameSystem.setCurrentPiece(-1);
 				}else{
 					System.out.println("Movable Square");
-					if(GameSystem.checkForWin(tileType)){
-						GameSystem.movePiece(coordinates);
+					if(grid.gameSystem.checkForWin(tileType)){
+						grid.gameSystem.movePiece(coordinates);
 						System.out.println("Team " + tileType + " Wins!!");
 					}else{
-						GameSystem.movePiece(coordinates);
+						grid.gameSystem.movePiece(coordinates);
 
 					}
 				}
@@ -90,7 +92,7 @@ public class Tile extends JComponent {
 		}
 
 		if(containedPiece != -1){
-			GameSystem.pieceList.get(containedPiece).paint(g);
+			grid.gameSystem.getPiece(containedPiece).paint(g);
 		}
 	}
 
