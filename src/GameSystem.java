@@ -37,28 +37,35 @@ public class GameSystem {
 	}
 
 	public void movePiece(int[] coordinates){
+
+		Tile sourceTile = grid.getTile(currentPiece.coordinates);
+		Tile destinationTile = grid.getTile(coordinates);
+		
+		sourceTile.setPiece(null);
+		destinationTile.setPiece(currentPiece);
+		
 		changePieceCoordinates(coordinates);
 		changeTurns();
-		grid.undrawPieces();
-		grid.drawPieces();
+		
 	}
 
 	public void addPieceToGame(Piece newPiece, int[] startingCoordinates){
 		newPiece.setPieceCoordinates(startingCoordinates);
+		
+		
 		newPiece.setGameSystem(this);
 		pieceList.add(newPiece);
-		grid.undrawPieces();
 		grid.unvalidateMoves();
-		grid.drawPieces();
+		
+
+		grid.getTile(startingCoordinates).setPiece(newPiece);
 	}
 
 	public void changePieceCoordinates(int[] newCoordinates){
 		currentPiece.setPieceCoordinates(newCoordinates);
 		lastMovedPiece = currentPiece;
 		currentPiece = null;
-		grid.undrawPieces();
 		grid.unvalidateMoves();
-		grid.drawPieces();
 	}
 	
 	public Piece getPiece(int pieceValue){
@@ -140,8 +147,6 @@ public class GameSystem {
 			currentPiece = lastMovedPiece;
 			movePiece(lastMovedPiece.lastCoordinates);
 
-			grid.undrawPieces();
-			grid.drawPieces();
 		}
 	}
 	

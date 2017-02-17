@@ -33,7 +33,6 @@ public class MainFrame {
 		frame.revalidate();
 		frame.repaint();
 		
-
 		gameSystem.addPieceToGame(new Square(1), new int[] {1,0});
 		gameSystem.addPieceToGame(new Circle(1), new int[] {2,0});
 		gameSystem.addPieceToGame(new Triangle(1), new int[] {3,0});

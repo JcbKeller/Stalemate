@@ -31,12 +31,16 @@ public class Tile extends JComponent {
 		moveable = movability;
 	}
 
-	public void setPieceValue(Piece pieceValue){
+	public void setPiece(Piece pieceValue){
 		containedPiece = pieceValue;
 	}
 
 	public int[] getCoordinates(){
 		return this.coordinates;
+	}
+	
+	public Piece getPiece(){
+		return containedPiece;
 	}
 
 	public void setAsWinnable(int team){
@@ -68,6 +72,12 @@ public class Tile extends JComponent {
 		}
 	}
 
+	
+	@Override
+	public String toString() {
+		return "Tile " + coordinates[0] + ", " + coordinates[1];
+	}
+	
 
 }
 

@@ -2,8 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -15,7 +15,7 @@ public class GridView extends JPanel {
 
 	GameSystem gameSystem;
 
-	private Tile tile;
+//	private Tile tile;
 	private Piece piece;
 
 	private Tile.Listener tileListener = new Tile.Listener(){
@@ -42,8 +42,9 @@ public class GridView extends JPanel {
 				System.out.println("No Piece or Valid Move");
 				grid.gameSystem.setCurrentPiece(null);
 				grid.unvalidateMoves();
-				grid.undrawPieces();
-				grid.drawPieces();
+//				grid.undrawPieces();
+//				grid.drawPieces();
+				grid.repaint();
 			}else{
 				System.out.println("Movable Square");
 				if(grid.gameSystem.checkForWin(tileType)){ // BUG: Occasionally throws -1 exception
@@ -58,6 +59,8 @@ public class GridView extends JPanel {
 			
 		}
 	};
+	
+	private List<Tile> tiles = new ArrayList<>();
 	
 	public GridView(GameSystem newGameSystem, final int columns, final int rows){
 		super(new GridBagLayout());
@@ -74,6 +77,7 @@ public class GridView extends JPanel {
 				Tile newTile = new Tile(new int[] {column,row}, tileListener);
 				newTile.setAsWinnable(checkForWinnableTile(column,row));
 				this.add(newTile,c);
+				this.tiles.add(newTile);
 				gameSystem.addTileToList(newTile);
 			}
 		}
@@ -92,30 +96,27 @@ public class GridView extends JPanel {
 		return c;
 	}
 
-	public void drawPieces(){
-		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
-			tile = gameSystem.getTile(tileValue);
-			for(int pieceValue = 0; pieceValue< gameSystem.getNumberOfPieces(); pieceValue++){
-				piece = gameSystem.getPiece(pieceValue);
-				if(checkForIdenticalCoordinates(tile, piece) == true ){
-					tile.setPieceValue(piece);
-				}
+	
+	public Tile getTile(int[] coordinates){
+		for(Tile t : tiles){
+			final int[] coords = t.getCoordinates();
+			System.out.println("Passed coords: " + coordinates);
+			if(coords[0] == coordinates[0] && coords[1] == coordinates[1]){
+				return t;
 			}
 		}
-		this.repaint();
+		throw new RuntimeException("No tile for " + coordinates[0] + ", " + coordinates[1]);
 	}
 
-	public void undrawPieces(){
-		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
-			tile = gameSystem.getTile(tileValue);
-			tile.setPieceValue(null);
-		}
-		this.repaint();
-	}
+//	public void undrawPieces(){
+//		for(Tile tile : tiles){
+//			tile.setPiece(null);
+//		}
+//		this.repaint();
+//	}
 
 	public void unvalidateMoves(){
-		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
-			tile = gameSystem.getTile(tileValue);
+		for(Tile tile : tiles){
 			tile.setMoveable(false);
 		}
 		this.repaint();
@@ -124,8 +125,7 @@ public class GridView extends JPanel {
 	public void showValidMoves(Piece pieceValue){
 		gameSystem.setCurrentPiece(pieceValue);
 		piece = pieceValue;
-		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
-			tile = gameSystem.getTile(tileValue);
+		for(Tile tile : tiles){
 			if(piece.checkIfValidMove(tile) == true){
 				tile.setMoveable(true);
 			}else{
