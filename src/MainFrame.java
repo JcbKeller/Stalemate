@@ -21,6 +21,15 @@ public class MainFrame {
 	}
 
 	public void restartGame(GameSystem gameSystem){
+//		final GridView.Listener gridListener = new GridView.Listener() {
+//			
+//			@Override
+//			public void pieceClicked(Piece containedPiece, boolean moveable, int[] coordinates, int tileType) {
+//				
+//			}
+//		};
+
+		
 		GridView grid = new GridView(gameSystem, gameSystem.getTotalColumns(), gameSystem.getTotalRows());
 		gameSystem.setGrid(grid);
 		

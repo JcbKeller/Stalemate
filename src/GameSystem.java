@@ -6,14 +6,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class GameSystem {
+public class GameSystem implements Tile.Listener {
 
 	public GameSystem(){
 		System.out.println("Created Instance of GameSystem");
-		}
+	}
 	
-	private final List<Piece> pieceList = new ArrayList<>();
-	private final List<Tile> tileList = new ArrayList<>();
 	private final int totalRows = 6;
 	private final int totalColumns = 5;
 	private final int[] startingWindowSize = new int[] {800,800};
@@ -54,10 +52,7 @@ public class GameSystem {
 		
 		
 		newPiece.setGameSystem(this);
-		pieceList.add(newPiece);
 		grid.unvalidateMoves();
-		
-
 		grid.getTile(startingCoordinates).setPiece(newPiece);
 	}
 
@@ -66,14 +61,6 @@ public class GameSystem {
 		lastMovedPiece = currentPiece;
 		currentPiece = null;
 		grid.unvalidateMoves();
-	}
-	
-	public Piece getPiece(int pieceValue){
-		return pieceList.get(pieceValue);
-	}
-	
-	public int getNumberOfPieces(){
-		return pieceList.size();
 	}
 	
 	public boolean checkForCurrentTeam(Piece pieceValue) {
@@ -127,18 +114,44 @@ public class GameSystem {
 		grid = newGrid;
 	}
 	
-	public Tile getTile(int tileValue){
-		return tileList.get(tileValue);
+
+	@Override
+	public void tileClicked(int[] coordinates, Piece containedPiece, boolean moveable, int tileType){
+		System.out.println("Mouse click at ("+ coordinates[0]+","+ coordinates[1]+")");
+		System.out.println("ContainedPiece = "+containedPiece);
+		
+		GameSystem gameSystem = this;
+		
+		if(containedPiece != null){
+			if(gameSystem.checkForCurrentTeam(containedPiece) == true){
+				gameSystem.respondToPieceClick(containedPiece);
+			}else{
+				if(moveable == true){
+					System.out.println("Attempt To Capture");
+					if(tileType == 0){
+						gameSystem.capturePiece(containedPiece,coordinates);
+					}else{
+						System.out.println("Cannot Capture Base Pieces");								
+					}
+				}
+			}
+		}else if(moveable == false){
+			System.out.println("No Piece or Valid Move");
+			gameSystem.setCurrentPiece(null);
+			gameSystem.getGrid().unvalidateMoves();
+		}else{
+			System.out.println("Movable Square");
+			if(gameSystem.checkForWin(tileType)){ 
+				gameSystem.movePiece(coordinates);
+				System.out.println("Team " + tileType + " Wins!!");
+				gameSystem.showTeamWin(tileType);
+			}else{
+				gameSystem.movePiece(coordinates);
+
+			}
+		}
+		
 	}
-	
-	public int getNumberOfTiles(){
-		return tileList.size();
-	}
-	
-	public void addTileToList(Tile tile){
-		tileList.add(tile);
-	}
-	
 	public void undoLastMove(){
 		if(lastMovedPiece == null){
 			System.out.println("No Previous Moves");
