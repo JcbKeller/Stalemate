@@ -40,9 +40,12 @@ public class Tile extends JComponent {
 				}else if(moveable == false){
 					System.out.println("No Piece or Valid Move");
 					grid.gameSystem.setCurrentPiece(-1);
+					grid.unvalidateMoves();
+					grid.undrawPieces();
+					grid.drawPieces();
 				}else{
 					System.out.println("Movable Square");
-					if(grid.gameSystem.checkForWin(tileType)){
+					if(grid.gameSystem.checkForWin(tileType)){ // BUG: Occasionally throws -1 exception
 						grid.gameSystem.movePiece(coordinates);
 						System.out.println("Team " + tileType + " Wins!!");
 						grid.gameSystem.showTeamWin(tileType);

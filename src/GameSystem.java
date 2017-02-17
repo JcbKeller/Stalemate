@@ -2,14 +2,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
 
 public class GameSystem {
-	//final List<Piece> pieceList = new ArrayList<>();
 
 	public GameSystem(){
 		System.out.println("Created Instance of GameSystem");
@@ -148,16 +145,16 @@ public class GameSystem {
 			grid.drawPieces();
 		}
 	}
+	
 	public void showTeamWin(int winningTeam){
-		JFrame winFrame = new JFrame("Rules Window");
+		Stalemate.resetGame();
+		JFrame winFrame = new JFrame("Game Over");
 		winFrame.setVisible(true);
 		winFrame.setSize(300,200);
 		winFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		winFrame.setMaximumSize(new Dimension(600,400));
 		winFrame.setMinimumSize(new Dimension(300,100));
-//		 winPane = new JTabbedPane();
 		JComponent notificationPanel = new JLabel("Congratulations, Team " + winningTeam + " Wins!");
-//		winPane.addTab("Tips", notificationPanel);
 		winFrame.add(notificationPanel,BorderLayout.CENTER);
 	}
 }

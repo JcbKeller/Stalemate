@@ -53,7 +53,7 @@ public class Toolbar extends JPanel{
 		button4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Changing piece 0 coordinates");
+				System.out.println("Starting a new game");
 				Stalemate.resetGame();
 			}
 		});

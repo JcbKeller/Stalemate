@@ -1,15 +1,10 @@
 import javax.swing.JFrame;
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import java.awt.event.KeyEvent;
+
 
 public class RulesWindow extends JPanel{
 

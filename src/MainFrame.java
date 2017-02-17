@@ -1,18 +1,10 @@
 import javax.swing.JFrame;
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
+
 
 public class MainFrame {
 
@@ -42,14 +34,15 @@ public class MainFrame {
 
 	public void restartGame(GameSystem gameSystem){
 		GridView grid = new GridView(gameSystem);
-		frame.setVisible(false);
-		frame.removeAll();
-		frame = new JFrame("Stalemate (Main Window)");
+		frame.getContentPane().removeAll();
 		scrollpane = new JScrollPane(grid);
 		JComponent toolbar = new Toolbar(gameSystem);
 		JFrame frame = setupFrame(gameSystem.getStartingWindowSize());
 		frame.add(scrollpane,BorderLayout.CENTER);
 		frame.add(toolbar,BorderLayout.NORTH);
+		frame.revalidate();
+		frame.repaint();
+
 	}
 	
 	private JFrame setupFrame(int[] windowSize){
