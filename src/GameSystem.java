@@ -20,8 +20,8 @@ public class GameSystem {
 
 	private GridView grid;
 	private int currentTeam = 1;
-	private int currentPiece = -1;
-	private int lastMovedPiece = -1;
+	private Piece currentPiece = null;
+	private Piece lastMovedPiece = null;
 
 	public void changeTurns(){
 		if(currentTeam == 1){
@@ -43,9 +43,8 @@ public class GameSystem {
 		grid.drawPieces();
 	}
 
-	public void addPieceToGame(Piece newPiece, int[] startingCoordinates, int pieceTeam){
+	public void addPieceToGame(Piece newPiece, int[] startingCoordinates){
 		newPiece.setPieceCoordinates(startingCoordinates);
-		newPiece.setTeam(pieceTeam);
 		newPiece.setGameSystem(this);
 		pieceList.add(newPiece);
 		grid.undrawPieces();
@@ -54,9 +53,9 @@ public class GameSystem {
 	}
 
 	public void changePieceCoordinates(int[] newCoordinates){
-		pieceList.get(currentPiece).setPieceCoordinates(newCoordinates);
+		currentPiece.setPieceCoordinates(newCoordinates);
 		lastMovedPiece = currentPiece;
-		currentPiece = -1;
+		currentPiece = null;
 		grid.undrawPieces();
 		grid.unvalidateMoves();
 		grid.drawPieces();
@@ -70,34 +69,34 @@ public class GameSystem {
 		return pieceList.size();
 	}
 	
-	public boolean checkForCurrentTeam(int pieceValue) {
-		if(pieceList.get(pieceValue).team == getCurrentTeam()){
+	public boolean checkForCurrentTeam(Piece pieceValue) {
+		if(pieceValue.team == getCurrentTeam()){
 			return true;			
 		}else{
 			return false;
 		}
 	}
 
-	public void respondToPieceClick(int pieceValue){
+	public void respondToPieceClick(Piece pieceValue){
 		currentPiece = pieceValue;
 		grid.showValidMoves(pieceValue);
 		System.out.println("Showing Valid Moves");
 	}
 
-	public void capturePiece(int pieceValue, int[] tileCoordinates){
-		pieceList.get(pieceValue).setPieceCoordinates(new int[] {100,100});
+	public void capturePiece(Piece pieceValue, int[] tileCoordinates){
+		pieceValue.setPieceCoordinates(new int[] {100,100});
 		movePiece(tileCoordinates);								
 	}
 
 	public boolean checkForWin(int teamNumber){
-		if(pieceList.get(currentPiece).getTeam() == teamNumber){
+		if(currentPiece.getTeam() == teamNumber){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
-	public void setCurrentPiece(int pieceValue){
+	public void setCurrentPiece(Piece pieceValue){
 		currentPiece = pieceValue;
 	}
 	
@@ -134,12 +133,12 @@ public class GameSystem {
 	}
 	
 	public void undoLastMove(){
-		if(lastMovedPiece == -1){
+		if(lastMovedPiece == null){
 			System.out.println("No Previous Moves");
 		}else{
 			System.out.println("Attempting Undo");
 			currentPiece = lastMovedPiece;
-			movePiece(pieceList.get(lastMovedPiece).lastCoordinates);
+			movePiece(lastMovedPiece.lastCoordinates);
 
 			grid.undrawPieces();
 			grid.drawPieces();

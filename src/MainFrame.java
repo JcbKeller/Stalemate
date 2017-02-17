@@ -17,23 +17,13 @@ public class MainFrame {
 	public MainFrame(GameSystem gameSystem){
 		frame = new JFrame("Stalemate (Main Window)");
 
-		GridView grid = new GridView(gameSystem);		
-		scrollpane = new JScrollPane(grid);
-		JComponent toolbar = new Toolbar(gameSystem);
-
-		JFrame frame = setupFrame(gameSystem.getStartingWindowSize());
-		frame.add(scrollpane,BorderLayout.CENTER);
-		frame.add(toolbar,BorderLayout.NORTH);
-//		frame.add(rules);
-
-//		rulesPane = new JTabbedPane();
-//		JComponent panel1 = new JLabel("The Objective is to win.");
-//		rulesPane.addTab("Objective", panel1);
-//		rulesFrame.add(rulesPane);
+		restartGame(gameSystem);
 	}
 
 	public void restartGame(GameSystem gameSystem){
-		GridView grid = new GridView(gameSystem);
+		GridView grid = new GridView(gameSystem, gameSystem.getTotalColumns(), gameSystem.getTotalRows());
+		gameSystem.setGrid(grid);
+		
 		frame.getContentPane().removeAll();
 		scrollpane = new JScrollPane(grid);
 		JComponent toolbar = new Toolbar(gameSystem);
@@ -42,6 +32,14 @@ public class MainFrame {
 		frame.add(toolbar,BorderLayout.NORTH);
 		frame.revalidate();
 		frame.repaint();
+		
+
+		gameSystem.addPieceToGame(new Square(1), new int[] {1,0});
+		gameSystem.addPieceToGame(new Circle(1), new int[] {2,0});
+		gameSystem.addPieceToGame(new Triangle(1), new int[] {3,0});
+		gameSystem.addPieceToGame(new Square(2), new int[] {1,5});
+		gameSystem.addPieceToGame(new Circle(2), new int[] {2,5});
+		gameSystem.addPieceToGame(new Triangle(2), new int[] {3,5});
 
 	}
 	

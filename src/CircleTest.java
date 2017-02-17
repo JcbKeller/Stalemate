@@ -17,8 +17,7 @@ public class CircleTest {
 	public void drawsBlueCirlesForTeam1(){
 		// given
 		List<Object> graphicsCommands = new ArrayList<>();
-		Circle circle = new Circle();
-		circle.team = 1;
+		Circle circle = new Circle(1);
 		Graphics g = new DummyGraphics(){
 			@Override
 			public void fillOval(int x, int y, int width, int height) {
@@ -43,8 +42,7 @@ public class CircleTest {
 	public void drawsRedCirlesForTeam2(){
 		// given
 		List<Object> graphicsCommands = new ArrayList<>();
-		Circle circle = new Circle();
-		circle.team = 2;
+		Circle circle = new Circle(1);
 		Graphics g = new DummyGraphics(){
 			@Override
 			public void fillOval(int x, int y, int width, int height) {

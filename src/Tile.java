@@ -4,15 +4,15 @@ import javax.swing.*;
 
 
 public class Tile extends JComponent {
-
+	public interface Listener {
+		void tileClicked(int[] coordinates, Piece containedPiece, boolean moveable, int tileType);
+	}
 	private int[] coordinates;
-	private int containedPiece = -1;
+	private Piece containedPiece;
 	private int tileType = 0;
-	private GridView grid;
 	private boolean moveable = false;
 
-	public Tile(GridView newGrid, int[] tileCoordinates){	
-		grid = newGrid;
+	public Tile(int[] tileCoordinates, Listener tileClickedListener){	
 		this.coordinates = tileCoordinates;
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
@@ -21,39 +21,7 @@ public class Tile extends JComponent {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Mouse click at ("+ coordinates[0]+","+ coordinates[1]+")");
-				System.out.println("ContainedPiece = "+containedPiece);
-				
-				if(containedPiece != -1){
-					if(grid.gameSystem.checkForCurrentTeam(containedPiece) == true){
-						grid.gameSystem.respondToPieceClick(containedPiece);
-					}else{
-						if(moveable == true){
-							System.out.println("Attempt To Capture");
-							if(tileType == 0){
-								grid.gameSystem.capturePiece(containedPiece,coordinates);
-							}else{
-								System.out.println("Cannot Capture Base Pieces");								
-							}
-						}
-					}
-				}else if(moveable == false){
-					System.out.println("No Piece or Valid Move");
-					grid.gameSystem.setCurrentPiece(-1);
-					grid.unvalidateMoves();
-					grid.undrawPieces();
-					grid.drawPieces();
-				}else{
-					System.out.println("Movable Square");
-					if(grid.gameSystem.checkForWin(tileType)){ // BUG: Occasionally throws -1 exception
-						grid.gameSystem.movePiece(coordinates);
-						System.out.println("Team " + tileType + " Wins!!");
-						grid.gameSystem.showTeamWin(tileType);
-					}else{
-						grid.gameSystem.movePiece(coordinates);
-
-					}
-				}
+				tileClickedListener.tileClicked(coordinates, containedPiece, moveable, tileType);
 
 			}
 		});
@@ -63,7 +31,7 @@ public class Tile extends JComponent {
 		moveable = movability;
 	}
 
-	public void setPieceValue(int pieceValue){
+	public void setPieceValue(Piece pieceValue){
 		containedPiece = pieceValue;
 	}
 
@@ -95,8 +63,8 @@ public class Tile extends JComponent {
 			g.drawRect(2,2,100,100);
 		}
 
-		if(containedPiece != -1){
-			grid.gameSystem.getPiece(containedPiece).paint(g);
+		if(containedPiece != null){
+			containedPiece.paint(g);
 		}
 	}
 

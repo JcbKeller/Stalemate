@@ -2,6 +2,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Square extends Piece{
+	
+	public Square(int team) {
+		super(team);
+	}
 
 	public boolean checkIfValidMove(Tile tile){
 		if(xDistance(tile,this) == 1 && yDistance(tile,this) <= 0 || xDistance(tile,this) <= 0 && yDistance(tile,this) == 1){

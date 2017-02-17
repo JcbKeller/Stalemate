@@ -7,6 +7,10 @@ public class Triangle extends Piece {
 	private int[] yPoints = {90,10,90};
 	private int nPoints = 3;
 
+	public Triangle(int team) {
+		super(team);
+	}
+
 	protected boolean checkIfValidMove(Tile tile) {
 		if(xDistance(tile,this) == 1 && + yDistance(tile,this) == 1){
 			return true;

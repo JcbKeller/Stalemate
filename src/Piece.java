@@ -4,8 +4,13 @@ public abstract class Piece {
 
 	protected int[] coordinates;
 	protected int[] lastCoordinates;
-	protected int team;
+	protected final int team;
 	protected GameSystem gameSystem;
+
+	public Piece(int team) {
+		super();
+		this.team = team;
+	}
 
 	public int[] getPieceCoordinates(){
 		return this.coordinates;
@@ -14,9 +19,9 @@ public abstract class Piece {
 	public int[] getPreviousCoordinates(){
 		return this.lastCoordinates;
 	}
-	public void setTeam(int newTeam){
-		this.team = newTeam;
-	}
+//	public void setTeam(int newTeam){
+//		this.team = newTeam;
+//	}
 	
 	public void setGameSystem(GameSystem newSystem){
 		this.gameSystem = newSystem;
@@ -35,4 +40,16 @@ public abstract class Piece {
 
 	protected abstract void paint(Graphics g);
 
+	@Override
+	public String toString() {
+		String teamName;
+		if(team == 1){
+			teamName = "Blue";
+		}else if (team == 2){
+			teamName = "Red";
+		}else{
+			throw new RuntimeException("I don't know what team this is: " + team);
+		}
+		return teamName + " " + getClass().getSimpleName() ;
+	}
 }

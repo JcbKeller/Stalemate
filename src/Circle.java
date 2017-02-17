@@ -1,7 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Circle extends Piece{
+public class Circle extends Piece {
+
+	public Circle(int team) {
+		super(team);
+	}
 
 	public boolean checkIfValidMove(Tile tile){
 		if(xDistance(tile,this) == 2 && yDistance(tile,this) == 0 || xDistance(tile,this) == 0 && yDistance(tile,this) == 2){

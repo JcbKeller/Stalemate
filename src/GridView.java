@@ -2,6 +2,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
 public class GridView extends JPanel {
@@ -15,24 +18,67 @@ public class GridView extends JPanel {
 	private Tile tile;
 	private Piece piece;
 
+	private Tile.Listener tileListener = new Tile.Listener(){
+		@Override
+		public void tileClicked(int[] coordinates, Piece containedPiece, boolean moveable, int tileType){
+			System.out.println("Mouse click at ("+ coordinates[0]+","+ coordinates[1]+")");
+			System.out.println("ContainedPiece = "+containedPiece);
+			GridView grid = GridView.this;
+			
+			if(containedPiece != null){
+				if(grid.gameSystem.checkForCurrentTeam(containedPiece) == true){
+					grid.gameSystem.respondToPieceClick(containedPiece);
+				}else{
+					if(moveable == true){
+						System.out.println("Attempt To Capture");
+						if(tileType == 0){
+							grid.gameSystem.capturePiece(containedPiece,coordinates);
+						}else{
+							System.out.println("Cannot Capture Base Pieces");								
+						}
+					}
+				}
+			}else if(moveable == false){
+				System.out.println("No Piece or Valid Move");
+				grid.gameSystem.setCurrentPiece(null);
+				grid.unvalidateMoves();
+				grid.undrawPieces();
+				grid.drawPieces();
+			}else{
+				System.out.println("Movable Square");
+				if(grid.gameSystem.checkForWin(tileType)){ // BUG: Occasionally throws -1 exception
+					grid.gameSystem.movePiece(coordinates);
+					System.out.println("Team " + tileType + " Wins!!");
+					grid.gameSystem.showTeamWin(tileType);
+				}else{
+					grid.gameSystem.movePiece(coordinates);
+
+				}
+			}
+			
+		}
+	};
 	
-	
-	public GridView(GameSystem newGameSystem){
+	public GridView(GameSystem newGameSystem, final int columns, final int rows){
 		super(new GridBagLayout());
 		System.out.println("Created Instance of GridView");
 		this.setMinimumSize(new Dimension(10,10));
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.GRAY);
 		gameSystem = newGameSystem;
-		gameSystem.setGrid(this);
-		initializeGrid();
+		
+		for(int column = 0; column < columns; column ++){
+			c.gridx = column;
+			for(int row = 0; row < rows; row ++){
+				c.gridy = row;
+				Tile newTile = new Tile(new int[] {column,row}, tileListener);
+				newTile.setAsWinnable(checkForWinnableTile(column,row));
+				this.add(newTile,c);
+				gameSystem.addTileToList(newTile);
+			}
+		}
+		this.repaint();
 		this.revalidate();
-		gameSystem.addPieceToGame(new Square(), new int[] {1,0},1);
-		gameSystem.addPieceToGame(new Circle(), new int[] {2,0},1);
-		gameSystem.addPieceToGame(new Triangle(), new int[] {3,0},1);
-		gameSystem.addPieceToGame(new Square(), new int[] {1,5},2);
-		gameSystem.addPieceToGame(new Circle(), new int[] {2,5},2);
-		gameSystem.addPieceToGame(new Triangle(), new int[] {3,5},2);
 	}
 
 	public GridBagConstraints constraints(){
@@ -46,27 +92,13 @@ public class GridView extends JPanel {
 		return c;
 	}
 
-	public void initializeGrid(){
-		for(int column = 0; column < gameSystem.getTotalColumns(); column ++){
-			c.gridx = column;
-			for(int row = 0; row < gameSystem.getTotalRows(); row ++){
-				c.gridy = row;
-				Tile newTile = new Tile(this,new int[] {column,row});
-				newTile.setAsWinnable(checkForWinnableTile(column,row));
-				this.add(newTile,c);
-				gameSystem.addTileToList(newTile);
-			}
-		}
-		this.repaint();
-	}
-
 	public void drawPieces(){
 		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
 			tile = gameSystem.getTile(tileValue);
 			for(int pieceValue = 0; pieceValue< gameSystem.getNumberOfPieces(); pieceValue++){
 				piece = gameSystem.getPiece(pieceValue);
 				if(checkForIdenticalCoordinates(tile, piece) == true ){
-					tile.setPieceValue(pieceValue);
+					tile.setPieceValue(piece);
 				}
 			}
 		}
@@ -76,7 +108,7 @@ public class GridView extends JPanel {
 	public void undrawPieces(){
 		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
 			tile = gameSystem.getTile(tileValue);
-			tile.setPieceValue(-1);
+			tile.setPieceValue(null);
 		}
 		this.repaint();
 	}
@@ -89,9 +121,9 @@ public class GridView extends JPanel {
 		this.repaint();
 	}
 
-	public void showValidMoves(int pieceValue){
+	public void showValidMoves(Piece pieceValue){
 		gameSystem.setCurrentPiece(pieceValue);
-		piece = gameSystem.getPiece(pieceValue);
+		piece = pieceValue;
 		for(int tileValue = 0; tileValue< gameSystem.getNumberOfTiles(); tileValue++){
 			tile = gameSystem.getTile(tileValue);
 			if(piece.checkIfValidMove(tile) == true){
