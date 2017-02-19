@@ -4,11 +4,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
 public class GridView extends JPanel {
-	final GridBagConstraints c = constraints();
 	final Tile.Listener tileListener;
 	private List<Tile> tiles = new ArrayList<>();
 	private final int rows;
@@ -22,6 +22,7 @@ public class GridView extends JPanel {
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.GRAY);
 		
+		GridBagConstraints c = constraints();
 		for(int column = 0; column < columns; column ++){
 			c.gridx = column;
 			for(int row = 0; row < rows; row ++){
@@ -35,8 +36,12 @@ public class GridView extends JPanel {
 		this.repaint();
 		this.revalidate();
 	}
-
-	public GridBagConstraints constraints(){
+	
+	public List<Tile> tiles(){
+		return this.tiles;
+	}
+	
+	private GridBagConstraints constraints(){
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 0;
@@ -46,7 +51,15 @@ public class GridView extends JPanel {
 		c.anchor = GridBagConstraints.CENTER;
 		return c;
 	}
-
+	
+	public Tile getTile(Piece p){
+		
+		return tiles.stream()
+				.filter( t -> t.getPiece() == p)
+				.findFirst()
+				.get();
+		
+	}
 	
 	public Tile getTile(int[] coordinates){
 		for(Tile t : tiles){
@@ -57,17 +70,17 @@ public class GridView extends JPanel {
 		}
 		throw new RuntimeException("No tile for " + coordinates[0] + ", " + coordinates[1]);
 	}
-
-	public void unvalidateMoves(){
+	
+	public void setAllTilesAsUnmoveable(){
 		for(Tile tile : tiles){
 			tile.setMoveable(false);
 		}
 		this.repaint();
 	}
 
-	public void showValidMoves(Piece piece){
+	public void setMoveableTiles(Piece piece, int totalX){
 		for(Tile tile : tiles){
-			if(piece.checkIfValidMove(tile) == true){
+			if(piece.checkIfValidMove(tile, totalX) == true){
 				tile.setMoveable(true);
 			}else{
 				tile.setMoveable(false);
@@ -75,7 +88,7 @@ public class GridView extends JPanel {
 		}
 		this.repaint();
 	}
-
+	
 	/**
 	 * TODO: Should move to GameSystem
 	 */

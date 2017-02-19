@@ -7,19 +7,19 @@ import java.awt.Dimension;
 
 
 public class MainFrame {
-
+	
 	JScrollPane scrollpane;
 	JFrame frame;
-
+	
 	JTabbedPane rulesPane;
 	JFrame rulesFrame;
 	
 	public MainFrame(GameSystem gameSystem){
 		frame = new JFrame("Stalemate (Main Window)");
-
+		
 		restartGame(gameSystem);
 	}
-
+	
 	public void restartGame(GameSystem gameSystem){
 //		final GridView.Listener gridListener = new GridView.Listener() {
 //			
@@ -28,7 +28,7 @@ public class MainFrame {
 //				
 //			}
 //		};
-
+		
 		
 		GridView grid = new GridView(gameSystem, gameSystem.getTotalColumns(), gameSystem.getTotalRows());
 		gameSystem.setGrid(grid);
@@ -45,10 +45,11 @@ public class MainFrame {
 		gameSystem.addPieceToGame(new Square(1), new int[] {1,0});
 		gameSystem.addPieceToGame(new Circle(1), new int[] {2,0});
 		gameSystem.addPieceToGame(new Triangle(1), new int[] {3,0});
+		
 		gameSystem.addPieceToGame(new Square(2), new int[] {1,5});
 		gameSystem.addPieceToGame(new Circle(2), new int[] {2,5});
 		gameSystem.addPieceToGame(new Triangle(2), new int[] {3,5});
-
+		
 	}
 	
 	private JFrame setupFrame(int[] windowSize){
@@ -59,5 +60,5 @@ public class MainFrame {
 		frame.setMinimumSize(new Dimension(300,350));
 		return frame;
 	}
-
+	
 }

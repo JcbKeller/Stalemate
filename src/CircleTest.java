@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class CircleTest {
 
-	static final NumberWrapper n = new NumberWrapper(4);
+//	static final NumberWrapper n = new NumberWrapper(4);
 
 
 

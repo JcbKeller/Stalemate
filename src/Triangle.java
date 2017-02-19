@@ -11,11 +11,11 @@ public class Triangle extends Piece {
 		super(team);
 	}
 
-	protected boolean checkIfValidMove(Tile tile) {
+	protected boolean checkIfValidMove(Tile tile, int totalX) {
 		if(xDistance(tile,this) == 1 && + yDistance(tile,this) == 1){
 			return true;
 		}else{
-			if(wrapXDistance(tile,this) == 1 && + yDistance(tile,this) == 1){
+			if(wrapXDistance(tile,this, totalX) == 1 && + yDistance(tile,this) == 1){
 				return true;
 			}else{
 				return false;
@@ -27,16 +27,16 @@ public class Triangle extends Piece {
 		return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);
 	}
 	
-	private int wrapXDistance(Tile tile, Piece piece){
-		if(this.coordinates[0] > gameSystem.getTotalColumns()-2){
+	private int wrapXDistance(Tile tile, Piece piece, int totalX){
+		if(this.coordinates[0] > totalX-2){
 			if(tile.getCoordinates()[0] < 2){
-				return Math.abs(tile.getCoordinates()[0]+gameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
+				return Math.abs(tile.getCoordinates()[0]+totalX-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
 			}
 		}else if (this.coordinates[0] < 2){
-			if(tile.getCoordinates()[0] > gameSystem.getTotalColumns()-2){
-				return Math.abs(tile.getCoordinates()[0]-gameSystem.getTotalColumns()-piece.getPieceCoordinates()[0]);			
+			if(tile.getCoordinates()[0] > totalX-2){
+				return Math.abs(tile.getCoordinates()[0]-totalX-piece.getPieceCoordinates()[0]);			
 			}else{
 				return Math.abs(tile.getCoordinates()[0]-piece.getPieceCoordinates()[0]);			
 			}
