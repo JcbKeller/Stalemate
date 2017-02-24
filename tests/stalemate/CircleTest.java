@@ -145,21 +145,37 @@ public class CircleTest {
 		assertEquals(result, false);
 	}
 
-//	@Test
-//	public void validHorizontalMovesAreDetected() {
-//		// given
-////		GridView grid = new GridView();
-//		Circle circle = new Circle();
-//		int [] coordinates = {2, GameSystem.getTotalRows()-1};
-//		Tile tile = new Tile(grid, coordinates);
-//		circle.setPieceCoordinates(new int[]{4, GameSystem.getTotalRows()-1});
-//
-//		// when
-//		boolean result = circle.checkIfValidMove(tile);
-//
-//		// then
-//		boolean expected = true;
-//		assertEquals(result, expected);
-//	}
+	@Test
+	public void canWrapFromLeftEdge(){
+		//given
+		Team team = new FakeTeam("The Red Dragons", Color.PINK);
+		Circle circle = new Circle(team);
+		Tile from = new Tile(new int[] {0,1});
+		Tile to = new Tile(new int[] {4,1});
+		int horizontalDistance = 6;
+		
+		//when
+		boolean result = circle.checkIfValidMove(from, to, horizontalDistance);
+		
+		//then
+		assertEquals(result, true);
+	}
+		
+	@Test
+	public void canWrapFromRightEdge(){
+		//given
+		Team team = new FakeTeam("The Red Dragons", Color.PINK);
+		Circle circle = new Circle(team);
+		Tile from = new Tile(new int[] {5,1});
+		Tile to = new Tile(new int[] {1,1});
+		int horizontalDistance = 6;
+		
+		//when
+		boolean result = circle.checkIfValidMove(from, to, horizontalDistance);
+		
+		//then
+		assertEquals(result, true);
+	}
+
 
 }

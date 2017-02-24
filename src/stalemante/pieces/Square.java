@@ -10,12 +10,13 @@ public class Square extends Piece{
 	public Square(Team team) {
 		super(team);
 	}
-
+	
+	
 	public boolean checkIfValidMove(Tile from, Tile tile, int totalX){
-		if(xDistance(tile,from) == 1 && yDistance(tile,from) <= 0 || xDistance(tile,from) <= 0 && yDistance(tile,from) == 1){
+		if(xDistance(tile,from) == 1 && yDistance(tile,from) == 0 || xDistance(tile,from) == 0 && yDistance(tile,from) == 1){
 			return true;
 		}else{
-			if(wrapXDistance(tile,from, totalX) == 1 && yDistance(tile,from) <= 0 || wrapXDistance(tile,from, totalX) <= 0 && yDistance(tile,from) == 1){
+			if(wrapXDistance(tile,from, totalX) == 1 && yDistance(tile,from) == 0 || wrapXDistance(tile,from, totalX) == 0 && yDistance(tile,from) == 1){
 				return true;
 			}else{
 				return false;

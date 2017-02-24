@@ -15,11 +15,11 @@ public class Triangle extends Piece {
 		super(team);
 	}
 
-	public boolean checkIfValidMove(Tile from, Tile tile, int totalX) {
-		if(xDistance(tile,from) == 1 && + yDistance(tile,from) == 1){
+	public boolean checkIfValidMove(Tile from, Tile to, int totalX) {
+		if(xDistance(from,to) == 1 && + yDistance(from,to) == 1){
 			return true;
 		}else{
-			if(wrapXDistance(tile,from, totalX) == 1 && + yDistance(tile,from) == 1){
+			if(wrapXDistance(from,to, totalX) == 1 && + yDistance(from,to) == 1){
 				return true;
 			}else{
 				return false;

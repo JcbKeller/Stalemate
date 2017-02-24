@@ -1,4 +1,5 @@
 package gridsystem;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
 public class GridView extends JPanel {
 	private final int rows;
 	private final int columns;
-
+	
 	private Tile.Listener tileListener;
 	private List<Tile> tiles = new ArrayList<>();
 	
@@ -26,16 +27,17 @@ public class GridView extends JPanel {
 		this.setMaximumSize(new Dimension(10,10));
 		setBackground(Color.GRAY);
 		
-
+		
 		GridBagConstraints c = constraints();
 
 		for(int column = 0; column < columns; column ++){
 			for(int row = 0; row < rows; row ++){
 				Tile tile = new Tile(new int[] {column,row});
+// -------- Ask About Testing These --------
 				int[] coords = tile.getCoordinates();
 				c.gridx = coords[0];
 				c.gridy = coords[1];
-				
+// -----------------------------------------				
 				this.add(tile,c);
 				this.tiles.add(tile);
 			}
@@ -45,6 +47,7 @@ public class GridView extends JPanel {
 		this.repaint();
 		this.revalidate();
 	}
+	
 	
 	public void setListener(Tile.Listener listener){
 		this.tileListener = listener;
@@ -82,7 +85,6 @@ public class GridView extends JPanel {
 				.filter( t -> t.getPiece() == p)
 				.findFirst()
 				.get();
-		
 	}
 	
 	public Tile getTile(int[] coordinates){

@@ -5,14 +5,13 @@ import javax.swing.*;
 
 import stalemante.Team;
 
-
 public class Tile extends JComponent {
 	public interface Listener {
 		void tileClicked(Tile tile);
 	}
 	
 	private final int[] coordinates;
-	private Piece containedPiece;
+	private Piece containedPiece = null;
 	
 	private Team winningSpotForTeam = null;
 	
@@ -21,7 +20,7 @@ public class Tile extends JComponent {
 	
 	public Tile(int[] tileCoordinates){	
 		this.coordinates = tileCoordinates;
-		Tile tile = this;
+//		Tile tile = this;
 		this.setPreferredSize(new Dimension(103,103));
 		this.setMaximumSize(new Dimension(105,105));
 		this.setMinimumSize(new Dimension(100,100));
@@ -29,7 +28,7 @@ public class Tile extends JComponent {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				tileClickedListener.tileClicked(tile);
+				tileClickedListener.tileClicked(Tile.this);
 
 			}
 		});
@@ -38,12 +37,13 @@ public class Tile extends JComponent {
 	public void setListener(Listener listener){
 		this.tileClickedListener = listener;
 	}
+	
 	public void setWinningSpotForTeam(Team type){
 		winningSpotForTeam = type;
 	}
 	
 	public Team winningSpotForTeam(){
-		return winningSpotForTeam;
+		return winningSpotForTeam;			
 	}
 	
 	public void setMoveable(boolean movability){
@@ -59,9 +59,9 @@ public class Tile extends JComponent {
 	}
 
 	public Piece getPiece(){
-		return containedPiece;
+			return containedPiece;
 	}
-
+	
 	public int[] getCoordinates(){
 		return this.coordinates;
 	}

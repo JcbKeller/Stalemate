@@ -14,7 +14,9 @@ public class Stalemate {
 	
 	public static void resetGame(){
 		GridView grid = new GridView(5, 6);
-		mainFrame.restartGame(new GameSystem(grid), grid);		
+		if(mainFrame != null){
+			mainFrame.restartGame(new GameSystem(grid), grid);		
+		}
 	}
 
 }

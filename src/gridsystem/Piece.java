@@ -12,7 +12,7 @@ public abstract class Piece {
 		super();
 		this.team = team;
 	}
-
+	
 	public int[] getPreviousCoordinates(){
 		return this.lastCoordinates;
 	}

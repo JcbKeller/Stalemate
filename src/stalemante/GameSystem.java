@@ -63,7 +63,7 @@ public class GameSystem implements Tile.Listener {
 		this.teams = Arrays.asList(blueTeam, redTeam);
 		currentTeam = teams.stream().findFirst().get();
 		
-
+		
 		addPieceToGame(new Square(blueTeam), new int[] {1,0});
 		addPieceToGame(new Circle(blueTeam), new int[] {2,0});
 		addPieceToGame(new Triangle(blueTeam), new int[] {3,0});
@@ -72,15 +72,15 @@ public class GameSystem implements Tile.Listener {
 		addPieceToGame(new Circle(redTeam), new int[] {2,5});
 		addPieceToGame(new Triangle(redTeam), new int[] {3,5});
 		
-
-		grid.getTile(new int[]{1, 0}).setWinningSpotForTeam(redTeam);
-		grid.getTile(new int[]{2, 0}).setWinningSpotForTeam(redTeam);
-		grid.getTile(new int[]{3, 0}).setWinningSpotForTeam(redTeam);
 		
-
-		grid.getTile(new int[]{1, 5}).setWinningSpotForTeam(blueTeam);
-		grid.getTile(new int[]{2, 5}).setWinningSpotForTeam(blueTeam);
-		grid.getTile(new int[]{3, 5}).setWinningSpotForTeam(blueTeam);
+//		grid.getTile(new int[]{1, 0}).setWinningSpotForTeam(redTeam);
+//		grid.getTile(new int[]{2, 0}).setWinningSpotForTeam(redTeam);
+//		grid.getTile(new int[]{3, 0}).setWinningSpotForTeam(redTeam);
+//		
+//		
+//		grid.getTile(new int[]{1, 5}).setWinningSpotForTeam(blueTeam);
+//		grid.getTile(new int[]{2, 5}).setWinningSpotForTeam(blueTeam);
+//		grid.getTile(new int[]{3, 5}).setWinningSpotForTeam(blueTeam);
 		
 	}
 	
@@ -136,9 +136,14 @@ public class GameSystem implements Tile.Listener {
 	}
 	
 	public void setCurrentPiece(Piece pieceValue){
+		System.out.println("Piece Selected");
 		currentPiece = pieceValue;
 	}
 	
+	public Piece getCurrentPiece(){
+		return currentPiece;
+	}
+
 	
 	public GridView getGrid(){
 		return grid;
@@ -147,6 +152,7 @@ public class GameSystem implements Tile.Listener {
 
 	@Override
 	public void tileClicked(Tile tile){
+		
 		System.out.println("Mouse click at ("+ tile.getCoordinates()[0]+","+ tile.getCoordinates()[1]+")");
 		System.out.println("ContainedPiece = "+tile.getPiece());
 		
@@ -163,11 +169,13 @@ public class GameSystem implements Tile.Listener {
 			this.getGrid().setAllTilesAsUnmoveable();
 		}else if(tile.getPiece() == null){
 			System.out.println("Tile contains nothing");
+
 			if(tile.winningSpotForTeam() == currentTeam){
 				this.showTeamWin(currentTeam);	
 				movePiece(tile.getCoordinates());			
 			}else{
-				movePiece(tile.getCoordinates());
+
+			movePiece(tile.getCoordinates());
 				System.out.println("Current Piece: "+currentPiece);
 			}
 		}else if(this.checkForCurrentTeam(tile.getPiece()) == true){
@@ -175,14 +183,17 @@ public class GameSystem implements Tile.Listener {
 			swapPieces(currentPiece, tile.getPiece());
 		}else{
 			System.out.println("Tile contains Enemy piece");
+			
 			if(tile.winningSpotForTeam() == currentTeam){
 				System.out.println("Cannot Capture Base Pieces");
 			}else{
 				System.out.println("Checking for Piece Protection");
 				if(checkIfProtecting(tile) == false){
+			
 					System.out.println("Piece is vulnerable!");
 					this.showTeamWin(currentTeam);		
-					this.capturePiece(tile.getPiece(),tile.getCoordinates());				
+					this.capturePiece(tile.getPiece(),tile.getCoordinates());
+					
 				}else{
 					System.out.println("Piece is Protected!");
 					this.setCurrentPiece(null);
@@ -221,14 +232,17 @@ public class GameSystem implements Tile.Listener {
 		}
 	}
 	
+	// --------- FIX Broken Undo Move ----------
+	// NOTE:  Allow for undoing swap moves
+	
 	public void undoLastMove(){
-		if(lastMovedPiece == null){
-			System.out.println("No Previous Moves");
-		}else{
-			System.out.println("Attempting Undo");
-			currentPiece = lastMovedPiece;
-			movePiece(lastMovedPiece.getPreviousCoordinates());
-		}
+//		if(lastMovedPiece == null){
+//			System.out.println("No Previous Moves");
+//		}else{
+//			System.out.println("Attempting Undo");
+//			currentPiece = lastMovedPiece;
+//			movePiece(lastMovedPiece.getPreviousCoordinates());
+//		}
 	}
 	
 	public void showTeamWin(Team winningTeam){
@@ -252,7 +266,6 @@ public class GameSystem implements Tile.Listener {
 		
 		sourceTile.setPiece(null);
 		destinationTile.setPiece(currentPiece);
-//		currentPiece.setPieceCoordinates(coordinates);
 		lastMovedPiece = currentPiece;
 		currentPiece = null;
 		grid.setAllTilesAsUnmoveable();
@@ -261,17 +274,12 @@ public class GameSystem implements Tile.Listener {
 	}
 	
 	public void swapPieces(Piece selectedPiece,Piece clickedPiece){	
-//		int[] selectedCoordinates = selectedPiece.coordinates;
-//		int[] clickedCoordinates = clickedPiece.coordinates;
 		Tile sourceTile = grid.getTile(currentPiece);
 		Tile destinationTile = grid.getTile(clickedPiece);
 		
 		sourceTile.setPiece(clickedPiece);
 		destinationTile.setPiece(selectedPiece);
-		
-//		clickedPiece.setPieceCoordinates(selectedCoordinates);
-//		selectedPiece.setPieceCoordinates(clickedCoordinates);
-		
+				
 		changeTurns();
 		setCurrentPiece(null);
 		getGrid().setAllTilesAsUnmoveable();
